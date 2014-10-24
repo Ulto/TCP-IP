@@ -12,8 +12,7 @@
 #include <string.h>
 
 #include "dataStruct.h"
-
-extern void UserInt(struct fileTransfer *);
+#include "UI.h"
 
 int main()
 {
