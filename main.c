@@ -13,6 +13,7 @@
 
 #include "dataStruct.h"
 
+extern void UserInt(struct fileTransfer *);
 
 int main()
 {
