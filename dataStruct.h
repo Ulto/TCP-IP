@@ -1,5 +1,8 @@
 #include <Windows.h>
 
+#ifndef DATASTRUCT_H
+#define DATASTRUCT_H
+
 struct userInt
 {
     char subnet[16];
@@ -28,3 +31,5 @@ struct fileTransfer
     struct network net;
 
 };
+
+#endif /* DATASTRUCT_H */
