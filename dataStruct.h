@@ -1,3 +1,5 @@
+#include <Windows.h>
+
 struct userInt
 {
     char subnet[16];
@@ -9,7 +11,9 @@ struct userInt
 
 struct network
 {
-    DATE creationDate;
+	FILETIME creationDate;
+	FILETIME accessDate;
+	FILETIME modifyDate;
     FILE *ourFile;
     char buffer[1500];
     int length;
