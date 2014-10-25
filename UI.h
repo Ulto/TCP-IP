@@ -1,4 +1,5 @@
 #include "cons.h"
+#include "dataStruct.h"
 
 #ifndef UI_H
 #define UI_H
@@ -16,7 +17,11 @@
 #define GREEN		    2		//attribute value for green
 #define WHITE		    7		//attribute value for white
 
-void CreateMenu(int);
+#define CHECKMARK(id)	ConsDisplayAttr(9+id, 23, &done, GREEN)
+#define RED_X(id)		ConsDisplayAttr(9+id, 23, WRONG, RED)
+
+
+void CreateUIMenu(int);
 void UserInput(struct fileTransfer *info);
 void DisplayIP(int curLocationY, int key, struct fileTransfer *info);
 void DisplaySub(int curLocationY, int key, struct fileTransfer *info);
