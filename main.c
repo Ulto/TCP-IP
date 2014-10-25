@@ -12,7 +12,6 @@
 #include <string.h>
 
 #include "dataStruct.h"
-#include "UI.h"
 
 int main()
 {
