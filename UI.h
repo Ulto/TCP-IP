@@ -3,7 +3,7 @@
 #ifndef UI_H
 #define UI_H
 
-#define DELETE			8		//delete character ascii value
+#define DELETEKEY			8		//delete character ascii value
 #define TAB			    9		//tab character ascii value
 #define ADDRESSMAX		12		//ip and subnet max length
 #define CHECK		    251		//checkmark ascii value
