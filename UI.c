@@ -52,8 +52,8 @@ void CreateUIMenu(int menu)
 		break;
 	case 1:
 		//creating the menu
-		printf("IP Address: ___.___.___.___\n");
-		printf("Subnet Mask: ___.___.___.___\n");
+		printf("IP Address:           ___.___.___.___\n");
+		printf("Subnet Mask:          ___.___.___.___\n");
 		printf("Local File: \n");
 		printf("Destination Location: \n");
 		printf("Port: 1500\n\n\n");
@@ -92,7 +92,7 @@ void UserInput(struct fileTransfer *info)
 	RED_X(4);
 
 	//moves the cursor to the first location
-	ConsMoveCursor(curLocationY, 12);
+	ConsMoveCursor(curLocationY, STARTLOC);
 
 
 	while (1)
@@ -154,7 +154,7 @@ void DisplayIP(int curLocationY, int key, struct fileTransfer *info)
 {
 	int index;
 	char output[2];
-	static int ipx = ADDRESSMAX;
+	static int ipx = STARTLOC;
 	int badFlag = 0;
 	static int count = 0;
 	static int maxcnt = 0;
@@ -212,7 +212,7 @@ void DisplayIP(int curLocationY, int key, struct fileTransfer *info)
 				{
 					ConsDisplayAttr(curLocationY, ipx, output, WHITE);
 					goodGo[maxcnt] = 1;
-					info->ui.ipAddress[ipx-ADDRESSMAX] = key;
+					info->ui.ipAddress[ipx-STARTLOC] = key;
 				}
 				//increase the x position of the cursor
 				ipx++;
@@ -222,7 +222,7 @@ void DisplayIP(int curLocationY, int key, struct fileTransfer *info)
 				//if the end of the section is reached
 				if (count == SECTIONSIZE && maxcnt != ADDRESSMAX)
 				{
-					info->ui.ipAddress[ipx - ADDRESSMAX] = '.';
+					info->ui.ipAddress[ipx - STARTLOC] = '.';
 					//goto the next section
 					count = 0;
 					//jump over the .
@@ -273,7 +273,7 @@ void DisplaySub(int curLocationY, int key, struct fileTransfer *info)
 {
 	int index;
 	char output[2];
-	static int subx = 13;
+	static int subx = STARTLOC;
 	int badFlag = 0;
 	static int count = 0;
 	static int maxcnt = 0;
@@ -329,7 +329,7 @@ void DisplaySub(int curLocationY, int key, struct fileTransfer *info)
 				{
 					ConsDisplayAttr(curLocationY, subx, output, WHITE);
 					goodGo[maxcnt] = 1;
-					info->ui.ipAddress[subx - ADDRESSMAX] = key;
+					info->ui.ipAddress[subx - STARTLOC] = key;
 				}
 				//increase the x position of the cursor
 				subx++;
@@ -339,7 +339,7 @@ void DisplaySub(int curLocationY, int key, struct fileTransfer *info)
 				//if the end of the section is reached
 				if (count == SECTIONSIZE && maxcnt != ADDRESSMAX)
 				{
-					info->ui.ipAddress[subx - ADDRESSMAX] = '.';
+					info->ui.ipAddress[subx - STARTLOC] = '.';
 					//goto the next section
 					count = 0;
 					//jump over the .
@@ -364,7 +364,7 @@ void DisplaySub(int curLocationY, int key, struct fileTransfer *info)
 					}
 					else
 					{
-						RED_X(1);
+						RED_X(2);
 						ConsMoveCursor(curLocationY, subx);
 					}
 				}
@@ -388,7 +388,7 @@ void DisplayLocal(int curLocationY, int key, struct fileTransfer *info)
 {
 	int index;
 	char output[2];
-	static int localx = 12;
+	static int localx = STARTLOC;
 	int badFlag = 0;
 	char badChar[] = { 92, ':', '*', '?', '"', '<', '>', '|' };
 	static int maxcnt = 0;
@@ -406,6 +406,7 @@ void DisplayLocal(int curLocationY, int key, struct fileTransfer *info)
 			//removing one
 			localx--;
 			maxcnt--;
+			goodGo[maxcnt] = 0;
 		}
 		//moving back one and replacing the _
 		ConsDisplayAttr(curLocationY, localx, " ", WHITE);
@@ -440,30 +441,27 @@ void DisplayLocal(int curLocationY, int key, struct fileTransfer *info)
 				//increase the x position of the cursor
 				localx++;
 				maxcnt++;
-				//if its at the end
-				if (maxcnt == MAXFILESIZE)
-				{
-					//check to make sure all the characters are valid
-					for (index = 0; index < MAXFILESIZE; index++)
-					{
-						valid += goodGo[index];
-					}
-					//if valid
-					if (valid == MAXFILESIZE)
-					{
-						//print green checkmark
-						CHECKMARK(3);
-						ConsMoveCursor(curLocationY, localx);
-					}
-					else
-					{
-						//print red x
-						RED_X(3);
-						ConsMoveCursor(curLocationY, localx);
-					}
-				}
 			}
 		}
+	}
+
+	//check to make sure all the characters are valid
+	for (index = 0; index < MAXFILESIZE; index++)
+	{
+		valid += goodGo[index];
+	}
+	//if valid
+	if (valid == maxcnt)
+	{
+		//print green checkmark
+		CHECKMARK(3);
+		ConsMoveCursor(curLocationY, localx);
+	}
+	else
+	{
+		//print red x
+		RED_X(3);
+		ConsMoveCursor(curLocationY, localx);
 	}
 }
 
@@ -481,12 +479,12 @@ void DisplayLocal(int curLocationY, int key, struct fileTransfer *info)
 void DisplayDest(int curLocationY, int key, struct fileTransfer *info)
 {
 	int index;
-	static int destx = 22;
+	static int destx = STARTLOC;
 	char output[2];
 	int badFlag = 0;
 	char badChar[] = { 92, ':', '*', '?', '"', '<', '>', '|' };
 	static int maxcnt = 0;
-	static int goodGo[MAXFILESIZE];
+	static int goodGo[MAXFILESIZE] = {1};
 	int valid = 0;
 	int done = CHECK;
 
@@ -500,6 +498,7 @@ void DisplayDest(int curLocationY, int key, struct fileTransfer *info)
 			//removing one
 			destx--;
 			maxcnt--;
+			goodGo[maxcnt] = 0;
 		}
 		//moving back one and replacing the _
 		ConsDisplayAttr(curLocationY, destx, " ", WHITE);
@@ -534,28 +533,27 @@ void DisplayDest(int curLocationY, int key, struct fileTransfer *info)
 				//increase the x position of the cursor
 				destx++;
 				maxcnt++;
-				if (maxcnt == MAXFILESIZE)
-				{
-					//check to make sure all the characters are valid
-					for (index = 0; index < MAXFILESIZE; index++)
-					{
-						valid += goodGo[index];
-					}
-					//if valid
-					if (valid == MAXFILESIZE)
-					{
-						//print green checkmark
-						CHECKMARK(4);
-						ConsMoveCursor(curLocationY, destx);
-					}
-					else
-					{
-						//print red x
-						RED_X(4);
-						ConsMoveCursor(curLocationY, destx);
-					}
-				}
+
 			}
 		}
+	}
+
+	//check to make sure all the characters are valid
+	for (index = 0; index < MAXFILESIZE; index++)
+	{
+		valid += goodGo[index];
+	}
+	//if valid
+	if (valid == maxcnt)
+	{
+		//print green checkmark
+		CHECKMARK(4);
+		ConsMoveCursor(curLocationY, destx);
+	}
+	else
+	{
+		//print red x
+		RED_X(4);
+		ConsMoveCursor(curLocationY, destx);
 	}
 }
