@@ -56,7 +56,7 @@ void CreateMenu(int menu)
 		printf("Port: 1500\n");
 		break;
 	case 2:
-		printf("Please check other computer for status of the transfer\n");
+		printf("Please check the other computer for status of the transfer\n");
 		printf("Thank you,\n");
 		printf("The 457 File Transfer Team\n");
 		break;
@@ -131,19 +131,21 @@ void UserInput(struct fileTransfer *info)
 void DisplayIP(int curLocationY, int key, struct fileTransfer *info)
 {
 	int index;
+	char output[2];
 	static int ipx = ADDRESSMAX;
 	int badFlag = 0;
 	static int count = 0;
 	static int maxcnt = 0;
 	static int actualval = 0;
 	static int maxflag = 0;
-	int done = CHECK;
-	int bad = WRONG;
 	static int goodGo[ADDRESSMAX] = { 0 };
 	int valid = 0;
+	int done = CHECK;
 
+	sprintf(output, "%c", key);
+	
 	//if delete key is pressed
-	if (key == DELETE)
+	if (key == DELETEKEY)
 	{
 		//if its at the end of a section but not the end of the line
 		if (count == 0 && maxcnt != 0)
@@ -178,14 +180,14 @@ void DisplayIP(int curLocationY, int key, struct fileTransfer *info)
 				//makes sure its a digit if not change color to red
 				if (!isdigit(key))
 				{
-					ConsDisplayAttr(curLocationY, ipx, (char *)key, RED);
+					ConsDisplayAttr(curLocationY, ipx, output, RED);
 					badFlag = 1;
 					goodGo[maxcnt] = 0;
 				}
 				//displays the character if its a number
 				if (badFlag != 1)
 				{
-					ConsDisplayAttr(curLocationY, ipx, (char *)key, WHITE);
+					ConsDisplayAttr(curLocationY, ipx, output, WHITE);
 					goodGo[maxcnt] = 1;
 				}
 				//increase the x position of the cursor
@@ -215,12 +217,12 @@ void DisplayIP(int curLocationY, int key, struct fileTransfer *info)
 					if (valid == ADDRESSMAX)
 					{
 						//print green checkmark
-						ConsDisplayAttr(curLocationY, ipx, (char *)done, GREEN);
+						ConsDisplayAttr(curLocationY, ipx, &done, GREEN);
 					}
 					else
 					{
 						//print red x
-						ConsDisplayAttr(curLocationY, ipx, (char *)bad, RED);
+						ConsDisplayAttr(curLocationY, ipx, WRONG, RED);
 					}
 				}
 			}
@@ -243,17 +245,19 @@ void DisplayIP(int curLocationY, int key, struct fileTransfer *info)
 void DisplaySub(int curLocationY, int key, struct fileTransfer *info)
 {
 	int index;
+	char output[2];
 	static int subx = 13;
 	int badFlag = 0;
 	static int count = 0;
 	static int maxcnt = 0;
 	int done = CHECK;
-	int bad = WRONG;
 	static int goodGo[ADDRESSMAX] = { 0 };
 	int valid = 0;
 
+	sprintf(output, "%c", key);
+
 	//if delete key is pressed
-	if (key == DELETE)
+	if (key == DELETEKEY)
 	{
 		//if its at the end of a section but not the end of the line
 		if (count == 0 && maxcnt != 0)
@@ -288,14 +292,14 @@ void DisplaySub(int curLocationY, int key, struct fileTransfer *info)
 				//makes sure its a digit if not change color to red
 				if (!isdigit(key))
 				{
-					ConsDisplayAttr(curLocationY, subx, (char *)key, RED);
+					ConsDisplayAttr(curLocationY, subx, output, RED);
 					badFlag = 1;
 					goodGo[maxcnt] = 0;
 				}
 				//displays the character if its a number
 				if (badFlag != 1)
 				{
-					ConsDisplayAttr(curLocationY, subx, (char *)key, WHITE);
+					ConsDisplayAttr(curLocationY, subx, output, WHITE);
 					goodGo[maxcnt] = 1;
 				}
 				//increase the x position of the cursor
@@ -325,12 +329,12 @@ void DisplaySub(int curLocationY, int key, struct fileTransfer *info)
 					if (valid == ADDRESSMAX)
 					{
 						//print green checkmark
-						ConsDisplayAttr(curLocationY, subx, (char *)done, GREEN);
+						ConsDisplayAttr(curLocationY, subx, &done, GREEN);
 					}
 					else
 					{
 						//print red x
-						ConsDisplayAttr(curLocationY, subx, (char*)bad, RED);
+						ConsDisplayAttr(curLocationY, subx, WRONG, RED);
 					}
 				}
 			}
@@ -352,32 +356,81 @@ void DisplaySub(int curLocationY, int key, struct fileTransfer *info)
 void DisplayLocal(int curLocationY, int key, struct fileTransfer *info)
 {
 	int index;
+	char output[2];
 	static int localx = 12;
 	int badFlag = 0;
 	char badChar[] = { 92, ':', '*', '?', '"', '<', '>', '|' };
+	static int maxcnt = 0;
+	static int goodGo[MAXFILESIZE];
+	int valid = 0;
+	int done = CHECK;
 
-	//moves cursor to current location
-	ConsMoveCursor(curLocationY, localx);
-	//if its not a tab keypress
-	if (key != 9)
+	sprintf(output, "%c", key);
+	//if delete key is pressed
+	if (key == DELETEKEY)
 	{
-		//making sure it is a valid character to be used in filenames
-		for (index = 0; badChar[index] != '\0'; index++)
+		//if its not at the end
+		if (maxcnt != 0)
 		{
-			//if not, display char in red
-			if (key == badChar[index])
+			//removing one
+			localx--;
+			maxcnt--;
+		}
+		//moving back one and replacing the _
+		ConsDisplayAttr(curLocationY, localx, " ", WHITE);
+		ConsMoveCursor(curLocationY, localx);
+	}
+	else
+	{
+		if (maxcnt < MAXFILESIZE)
+		{
+			//moves cursor to current location
+			ConsMoveCursor(curLocationY, localx);
+			//if its not a tab keypress
+			if (key != 9)
 			{
-				ConsDisplayAttr(curLocationY, localx, (char *)key, 5);
-				badFlag = 1;
+				//making sure it is a valid character to be used in filenames
+				for (index = 0; badChar[index] != '\0'; index++)
+				{
+					//if not, display char in red
+					if (key == badChar[index])
+					{
+						ConsDisplayAttr(curLocationY, localx, output, RED);
+						goodGo[maxcnt] = 0;
+						badFlag = 1;
+					}
+				}
+				//display non bad characters in white
+				if (badFlag != 1)
+				{
+					ConsDisplayAttr(curLocationY, localx, output, WHITE);
+					goodGo[maxcnt] = 1;
+				}
+				//increase the x position of the cursor
+				localx++;
+				maxcnt++;
+				//if its at the end
+				if (maxcnt == MAXFILESIZE)
+				{
+					//check to make sure all the characters are valid
+					for (index = 0; index < MAXFILESIZE; index++)
+					{
+						valid += goodGo[index];
+					}
+					//if valid
+					if (valid == MAXFILESIZE)
+					{
+						//print green checkmark
+						ConsDisplayAttr(curLocationY, localx, &done, GREEN);
+					}
+					else
+					{
+						//print red x
+						ConsDisplayAttr(curLocationY, localx, WRONG, RED);
+					}
+				}
 			}
 		}
-		//display non bad characters in white
-		if (badFlag != 1)
-		{
-			ConsDisplayAttr(curLocationY, localx, (char *)key, 7);
-		}
-		//increase the x position of the cursor
-		localx++;
 	}
 }
 
@@ -396,30 +449,78 @@ void DisplayDest(int curLocationY, int key, struct fileTransfer *info)
 {
 	int index;
 	static int destx = 22;
+	char output[2];
 	int badFlag = 0;
 	char badChar[] = { 92, ':', '*', '?', '"', '<', '>', '|' };
+	static int maxcnt = 0;
+	static int goodGo[MAXFILESIZE];
+	int valid = 0;
+	int done = CHECK;
 
-	//moves cursor to current location
-	ConsMoveCursor(curLocationY, destx);
-	//if its not a tab keypress
-	if (key != 9)
+	sprintf(output, "%c", key);
+	//if delete key is pressed
+	if (key == DELETEKEY)
 	{
-		//making sure it is a valid character to be used in filenames
-		for (index = 0; badChar[index] != '\0'; index++)
+		//if its not at the end
+		if (maxcnt != 0)
 		{
-			//if not, display char in red
-			if (key == badChar[index])
+			//removing one
+			destx--;
+			maxcnt--;
+		}
+		//moving back one and replacing the _
+		ConsDisplayAttr(curLocationY, destx, " ", WHITE);
+		ConsMoveCursor(curLocationY, destx);
+	}
+	else
+	{
+		if (maxcnt < MAXFILESIZE)
+		{
+			//moves cursor to current location
+			ConsMoveCursor(curLocationY, destx);
+			//if its not a tab keypress
+			if (key != 9)
 			{
-				ConsDisplayAttr(curLocationY, destx, (char *)key, 5);
-				badFlag = 1;
+				//making sure it is a valid character to be used in filenames
+				for (index = 0; badChar[index] != '\0'; index++)
+				{
+					//if not, display char in red
+					if (key == badChar[index])
+					{
+						ConsDisplayAttr(curLocationY, destx, output, RED);
+						goodGo[maxcnt] = 0;
+						badFlag = 1;
+					}
+				}
+				//display non bad characters in white
+				if (badFlag != 1)
+				{
+					ConsDisplayAttr(curLocationY, destx, output, WHITE);
+					goodGo[maxcnt] = 1;
+				}
+				//increase the x position of the cursor
+				destx++;
+				maxcnt++;
+				if (maxcnt == MAXFILESIZE)
+				{
+					//check to make sure all the characters are valid
+					for (index = 0; index < MAXFILESIZE; index++)
+					{
+						valid += goodGo[index];
+					}
+					//if valid
+					if (valid == MAXFILESIZE)
+					{
+						//print green checkmark
+						ConsDisplayAttr(curLocationY, destx, &done, GREEN);
+					}
+					else
+					{
+						//print red x
+						ConsDisplayAttr(curLocationY, destx, WRONG, RED);
+					}
+				}
 			}
 		}
-		//display non bad characters in white
-		if (badFlag != 1)
-		{
-			ConsDisplayAttr(curLocationY, destx, (char *)key, 7);
-		}
-		//increase the x position of the cursor
-		destx++;
 	}
 }
