@@ -53,12 +53,20 @@ void CreateMenu(int menu)
 		printf("Subnet Mask: ___.___.___.___\n");
 		printf("Local File: \n");
 		printf("Destination Location: \n");
-		printf("Port: 1500\n");
+		printf("Port: 1500\n\n\n");
 		break;
 	case 2:
 		printf("Please check the other computer for status of the transfer\n");
 		printf("Thank you,\n");
 		printf("The 457 File Transfer Team\n");
+		break;
+	case 3:
+		printf("Status Window\n");
+		printf(" ______________________________________________________________________________\n");
+		printf("|                                                                              |\n");
+		printf("|                                                                              |\n");
+		printf("|                                                                              |\n");
+		printf(" ------------------------------------------------------------------------------\n");
 		break;
 	}
 
