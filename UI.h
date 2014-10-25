@@ -13,6 +13,8 @@
 #define WRONG		    "X"		// x ascii value
 #define DELETEKEY		8		//delete character ascii value
 
+#define STARTLOC		22
+
 #define RED			    4		//attribute value for red
 #define GREEN		    2		//attribute value for green
 #define WHITE		    7		//attribute value for white
