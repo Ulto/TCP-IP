@@ -17,7 +17,7 @@ struct network
 	FILETIME creationDate;
 	FILETIME accessDate;
 	FILETIME modifyDate;
-    FILE *ourFile;
+    FILE* ourFile;
     char buffer[1500];
     int length;
 };

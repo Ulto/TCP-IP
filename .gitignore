@@ -12,3 +12,5 @@ Lab4.sln
 Lab4.v12.suo
 Lab4.vcxproj.filters
 Lab4.vcxproj
+*.obj
+*.log
