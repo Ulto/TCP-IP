@@ -1,4 +1,5 @@
 #include <Windows.h>
+#include <stdio.h>
 
 #ifndef DATASTRUCT_H
 #define DATASTRUCT_H
