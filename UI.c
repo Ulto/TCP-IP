@@ -24,7 +24,7 @@ void UserInt(struct fileTransfer *info)
 		while (1)
 		{
 			//gets the user input 
-			UserInput(&info);
+			UserInput(info);
 		}
 		break;
 	}
@@ -98,19 +98,19 @@ void UserInput(struct fileTransfer *info)
 		{
 			//the ip line
 		case 2:
-			DisplayIP(curLocationY, key, &info);
+			DisplayIP(curLocationY, key, info);
 			break;
 			//the subnet line
 		case 3:
-			DisplaySub(curLocationY, key, &info);
+			DisplaySub(curLocationY, key, info);
 			break;
 			//the file path line
 		case 4:
-			DisplayLocal(curLocationY, key, &info);
+			DisplayLocal(curLocationY, key, info);
 			break;
 			//the file destination line
 		case 5:
-			DisplayDest(curLocationY, key, &info);
+			DisplayDest(curLocationY, key, info);
 			break;
 		}
 
@@ -178,14 +178,14 @@ void DisplayIP(int curLocationY, int key, struct fileTransfer *info)
 				//makes sure its a digit if not change color to red
 				if (!isdigit(key))
 				{
-					ConsDisplayAttr(curLocationY, ipx, &key, RED);
+					ConsDisplayAttr(curLocationY, ipx, (char *)key, RED);
 					badFlag = 1;
 					goodGo[maxcnt] = 0;
 				}
 				//displays the character if its a number
 				if (badFlag != 1)
 				{
-					ConsDisplayAttr(curLocationY, ipx, &key, WHITE);
+					ConsDisplayAttr(curLocationY, ipx, (char *)key, WHITE);
 					goodGo[maxcnt] = 1;
 				}
 				//increase the x position of the cursor
@@ -215,12 +215,12 @@ void DisplayIP(int curLocationY, int key, struct fileTransfer *info)
 					if (valid == ADDRESSMAX)
 					{
 						//print green checkmark
-						ConsDisplayAttr(curLocationY, ipx, &done, GREEN);
+						ConsDisplayAttr(curLocationY, ipx, (char *)done, GREEN);
 					}
 					else
 					{
 						//print red x
-						ConsDisplayAttr(curLocationY, ipx, &bad, RED);
+						ConsDisplayAttr(curLocationY, ipx, (char *)bad, RED);
 					}
 				}
 			}
@@ -288,14 +288,14 @@ void DisplaySub(int curLocationY, int key, struct fileTransfer *info)
 				//makes sure its a digit if not change color to red
 				if (!isdigit(key))
 				{
-					ConsDisplayAttr(curLocationY, subx, &key, RED);
+					ConsDisplayAttr(curLocationY, subx, (char *)key, RED);
 					badFlag = 1;
 					goodGo[maxcnt] = 0;
 				}
 				//displays the character if its a number
 				if (badFlag != 1)
 				{
-					ConsDisplayAttr(curLocationY, subx, &key, WHITE);
+					ConsDisplayAttr(curLocationY, subx, (char *)key, WHITE);
 					goodGo[maxcnt] = 1;
 				}
 				//increase the x position of the cursor
@@ -325,12 +325,12 @@ void DisplaySub(int curLocationY, int key, struct fileTransfer *info)
 					if (valid == ADDRESSMAX)
 					{
 						//print green checkmark
-						ConsDisplayAttr(curLocationY, subx, &done, GREEN);
+						ConsDisplayAttr(curLocationY, subx, (char *)done, GREEN);
 					}
 					else
 					{
 						//print red x
-						ConsDisplayAttr(curLocationY, subx, &bad, RED);
+						ConsDisplayAttr(curLocationY, subx, (char*)bad, RED);
 					}
 				}
 			}
@@ -367,14 +367,14 @@ void DisplayLocal(int curLocationY, int key, struct fileTransfer *info)
 			//if not, display char in red
 			if (key == badChar[index])
 			{
-				ConsDisplayAttr(curLocationY, localx, &key, 5);
+				ConsDisplayAttr(curLocationY, localx, (char *)key, 5);
 				badFlag = 1;
 			}
 		}
 		//display non bad characters in white
 		if (badFlag != 1)
 		{
-			ConsDisplayAttr(curLocationY, localx, &key, 7);
+			ConsDisplayAttr(curLocationY, localx, (char *)key, 7);
 		}
 		//increase the x position of the cursor
 		localx++;
@@ -410,14 +410,14 @@ void DisplayDest(int curLocationY, int key, struct fileTransfer *info)
 			//if not, display char in red
 			if (key == badChar[index])
 			{
-				ConsDisplayAttr(curLocationY, destx, &key, 5);
+				ConsDisplayAttr(curLocationY, destx, (char *)key, 5);
 				badFlag = 1;
 			}
 		}
 		//display non bad characters in white
 		if (badFlag != 1)
 		{
-			ConsDisplayAttr(curLocationY, destx, &key, 7);
+			ConsDisplayAttr(curLocationY, destx, (char *)key, 7);
 		}
 		//increase the x position of the cursor
 		destx++;
