@@ -1,6 +1,6 @@
 #include "Receive.h"
 
-int Receive_Open(struct fileTransfer RC)
+int Receive_Open(struct fileTransfer *RC)
 {
 
 
