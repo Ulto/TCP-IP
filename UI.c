@@ -57,7 +57,7 @@ void CreateUIMenu(int menu)
 		printf("Local File: \n");
 		printf("Destination Location: \n");
 		printf("Port: 1500\n\n\n");
-		printf("Correct Data\n");
+		printf("Valid Data\n");
 		printf("IP Address            [ ]\n");
 		printf("Subnet MasK           [ ]\n");
 		printf("Local File Path       [ ]\n");
@@ -451,7 +451,7 @@ void DisplayLocal(int curLocationY, int key, struct fileTransfer *info)
 		valid += goodGo[index];
 	}
 	//if valid
-	if (valid == maxcnt)
+	if (valid == maxcnt && maxcnt != 0)
 	{
 		//print green checkmark
 		CHECKMARK(3);
@@ -544,7 +544,7 @@ void DisplayDest(int curLocationY, int key, struct fileTransfer *info)
 		valid += goodGo[index];
 	}
 	//if valid
-	if (valid == maxcnt)
+	if (valid == maxcnt && maxcnt != 0)
 	{
 		//print green checkmark
 		CHECKMARK(4);
