@@ -14,3 +14,7 @@ Lab4.vcxproj.filters
 Lab4.vcxproj
 *.obj
 *.log
+*.exe
+*.ilk
+*.pdb
+*.tlog
