@@ -1,3 +1,4 @@
+#include"ntwk.h"
 
 int NTWK_Receive(void)
 {
