@@ -12,11 +12,17 @@ int NTWK_Receive(void)
 	{
 		/*Recieve data from the destination*/
 		NtwkRecv(/*length*/, /*buffer*/);
-
+		
 		/*If error, then break out of loop*/
 		if (/*error*/)
 			break;
-
+			
+		/*Gregs portion call in*/
+		
+		/*If error, then break out of loop*/
+		if (/*error*/)
+			break;
+			
 		/*Send packet to send program*/
 		NtwkSend( /*length*/,  /*buffer*/);
 
