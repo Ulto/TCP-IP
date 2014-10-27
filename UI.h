@@ -18,6 +18,7 @@
 #define RED			    4		//attribute value for red
 #define GREEN		    2		//attribute value for green
 #define WHITE		    7		//attribute value for white
+#define BLUE			9
 
 #define CHECKMARK(id)	ConsDisplayAttr(9+id, 23, &done, GREEN)
 #define RED_X(id)		ConsDisplayAttr(9+id, 23, WRONG, RED)
@@ -25,8 +26,8 @@
 
 void CreateUIMenu(int);
 void UserInput(struct fileTransfer *info);
-void DisplayIP(int curLocationY, int key, struct fileTransfer *info);
-void DisplaySub(int curLocationY, int key, struct fileTransfer *info);
-void DisplayLocal(int curLocationY, int key, struct fileTransfer *info);
-void DisplayDest(int curLocationY, int key, struct fileTransfer *info);
+int DisplayIP(int curLocationY, int key, struct fileTransfer *info, int doneFlag);
+int DisplaySub(int curLocationY, int key, struct fileTransfer *info, int doneFlag);
+int DisplayLocal(int curLocationY, int key, struct fileTransfer *info, int doneFlag);
+int DisplayDest(int curLocationY, int key, struct fileTransfer *info, int doneFlag);
 #endif /* UI_H */
