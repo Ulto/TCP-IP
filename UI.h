@@ -13,6 +13,7 @@
 #define WRONG		    "X"		// x ascii value
 #define DELETEKEY		8		//delete character ascii value
 #define ENTERKEY		13
+#define QUESTMARK		63
 
 #define STARTLOC		22
 
