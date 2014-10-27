@@ -85,6 +85,11 @@ void UserInput(struct fileTransfer *info)
 
 	int curLocationY = 2;
 	int key = 0;
+	int ipFlag = 0;
+	int localFlag = 0;
+	int subFlag = 0;
+	int destFlag = 0;
+	int doneFlag = 0;
 
 	RED_X(1);
 	RED_X(2);
@@ -111,31 +116,46 @@ void UserInput(struct fileTransfer *info)
 			if (curLocationY == 6)
 			{
 				//move back to start
-				curLocationY = 2;
+				curLocationY = 1;
 			}
 		}
 
 		//based on which line call a different function
 		switch (curLocationY)
 		{
+		case 1:
+			if (ipFlag == 1 && subFlag == 1 && localFlag == 1 && destFlag == 1)
+			{
+				ConsDisplayAttr(15, 0, "__________", BLUE);
+				ConsDisplayAttr(16, 0, "|  Done  |", BLUE);
+				ConsDisplayAttr(17, 0, "----------", BLUE);
+				break;
+			}
+			else
+			{
+				curLocationY = 2;
+			}				
 			//the ip line
 		case 2:
-			DisplayIP(curLocationY, key, info);
+			ipFlag = DisplayIP(curLocationY, key, info, doneFlag);
 			break;
 			//the subnet line
 		case 3:
-			DisplaySub(curLocationY, key, info);
+			subFlag = DisplaySub(curLocationY, key, info, doneFlag);
 			break;
 			//the file path line
 		case 4:
-			DisplayLocal(curLocationY, key, info);
+			localFlag = DisplayLocal(curLocationY, key, info, doneFlag);
 			break;
 			//the file destination line
 		case 5:
-			DisplayDest(curLocationY, key, info);
+			destFlag = DisplayDest(curLocationY, key, info, doneFlag);
 			break;
 		}
-
+		if (ipFlag == 1 && subFlag == 1 && localFlag == 1 && destFlag == 1 && curLocationY != 1)
+		{
+			doneFlag = 1;
+		}
 	}
 
 }
@@ -150,7 +170,7 @@ void UserInput(struct fileTransfer *info)
 * return:
 * none
 */
-void DisplayIP(int curLocationY, int key, struct fileTransfer *info)
+int DisplayIP(int curLocationY, int key, struct fileTransfer *info, int doneFlag)
 {
 	int index;
 	char output[2];
@@ -163,6 +183,7 @@ void DisplayIP(int curLocationY, int key, struct fileTransfer *info)
 	static int goodGo[ADDRESSMAX] = { 0 };
 	int valid = 0;
 	int done = CHECK;
+	int returndat = 0;
 
 	sprintf(output, "%c", key);
 	
@@ -188,6 +209,9 @@ void DisplayIP(int curLocationY, int key, struct fileTransfer *info)
 		//moving back one and replacing the _
 		ConsDisplayAttr(curLocationY, ipx, "_", WHITE);
 		RED_X(1);
+		ConsDisplayAttr(15, 0, "           ", WHITE);
+		ConsDisplayAttr(16, 0, "           ", WHITE);
+		ConsDisplayAttr(17, 0, "           ", WHITE);
 		ConsMoveCursor(curLocationY, ipx);
 	}
 	else
@@ -232,30 +256,42 @@ void DisplayIP(int curLocationY, int key, struct fileTransfer *info)
 					
 				}
 				//if its at the end
-				if (maxcnt == ADDRESSMAX)
+
+			}
+		}
+		if (maxcnt == ADDRESSMAX)
+		{
+			//check to make sure all the characters are valid
+			for (index = 0; index < ADDRESSMAX; index++)
+			{
+				valid += goodGo[index];
+			}
+			//if valid
+			if (valid == ADDRESSMAX)
+			{
+				//print green checkmark
+				CHECKMARK(1);
+				ConsMoveCursor(curLocationY, ipx);
+				returndat = 1;
+				if (doneFlag == 1)
 				{
-					//check to make sure all the characters are valid
-					for (index = 0; index < ADDRESSMAX; index++)
-					{
-						valid += goodGo[index];
-					}
-					//if valid
-					if (valid == ADDRESSMAX)
-					{
-						//print green checkmark
-						CHECKMARK(1);
-						ConsMoveCursor(curLocationY, ipx);
-					}
-					else
-					{
-						RED_X(1);
-						ConsMoveCursor(curLocationY, ipx);
-					}
+					ConsDisplayAttr(15, 0, "__________", WHITE);
+					ConsDisplayAttr(16, 0, "|  Done  |", WHITE);
+					ConsDisplayAttr(17, 0, "----------", WHITE);
+					ConsMoveCursor(curLocationY, ipx);
 				}
+			}
+			else
+			{
+				RED_X(1);
+				ConsDisplayAttr(15, 0, "           ", WHITE);
+				ConsDisplayAttr(16, 0, "           ", WHITE);
+				ConsDisplayAttr(17, 0, "           ", WHITE);
+				ConsMoveCursor(curLocationY, ipx);
 			}
 		}
 	}
-	
+	return returndat;
 }
 
 /* DisplaySub(int curLocationY, int key)
@@ -269,7 +305,7 @@ void DisplayIP(int curLocationY, int key, struct fileTransfer *info)
 * return:
 * none
 */
-void DisplaySub(int curLocationY, int key, struct fileTransfer *info)
+int DisplaySub(int curLocationY, int key, struct fileTransfer *info, int doneFlag)
 {
 	int index;
 	char output[2];
@@ -280,6 +316,8 @@ void DisplaySub(int curLocationY, int key, struct fileTransfer *info)
 	int done = CHECK;
 	static int goodGo[ADDRESSMAX] = { 0 };
 	int valid = 0;
+	int returndat = 0;
+	
 
 	sprintf(output, "%c", key);
 
@@ -305,6 +343,9 @@ void DisplaySub(int curLocationY, int key, struct fileTransfer *info)
 		//moving back one and replacing the _
 		ConsDisplayAttr(curLocationY, subx, "_", WHITE);
 		RED_X(2);
+		ConsDisplayAttr(15, 0, "           ", WHITE);
+		ConsDisplayAttr(16, 0, "           ", WHITE);
+		ConsDisplayAttr(17, 0, "           ", WHITE);
 		ConsMoveCursor(curLocationY, subx);
 	}
 	else
@@ -348,29 +389,42 @@ void DisplaySub(int curLocationY, int key, struct fileTransfer *info)
 					ConsMoveCursor(curLocationY, subx);
 				}
 				//if its at the end
-				if (maxcnt == ADDRESSMAX)
+
+			}
+		}
+		if (maxcnt == ADDRESSMAX)
+		{
+			//check to make sure all the characters are valid
+			for (index = 0; index < 12; index++)
+			{
+				valid += goodGo[index];
+			}
+			//if valid
+			if (valid == ADDRESSMAX)
+			{
+				//print green checkmark
+				CHECKMARK(2);
+				ConsMoveCursor(curLocationY, subx);
+				returndat = 1;
+				if (doneFlag == 1)
 				{
-					//check to make sure all the characters are valid
-					for (index = 0; index < 12; index++)
-					{
-						valid += goodGo[index];
-					}
-					//if valid
-					if (valid == ADDRESSMAX)
-					{
-						//print green checkmark
-						CHECKMARK(2);
-						ConsMoveCursor(curLocationY, subx);
-					}
-					else
-					{
-						RED_X(2);
-						ConsMoveCursor(curLocationY, subx);
-					}
+					ConsDisplayAttr(15, 0, "__________", WHITE);
+					ConsDisplayAttr(16, 0, "|  Done  |", WHITE);
+					ConsDisplayAttr(17, 0, "----------", WHITE);
+					ConsMoveCursor(curLocationY, subx);
 				}
+			}
+			else
+			{
+				RED_X(2);
+				ConsDisplayAttr(15, 0, "           ", WHITE);
+				ConsDisplayAttr(16, 0, "           ", WHITE);
+				ConsDisplayAttr(17, 0, "           ", WHITE);
+				ConsMoveCursor(curLocationY, subx);
 			}
 		}
 	}
+	return returndat;
 }
 
 /* DisplayLocal(int curLocationY, int key)
@@ -384,7 +438,7 @@ void DisplaySub(int curLocationY, int key, struct fileTransfer *info)
 * return:
 * none
 */
-void DisplayLocal(int curLocationY, int key, struct fileTransfer *info)
+int DisplayLocal(int curLocationY, int key, struct fileTransfer *info, int doneFlag)
 {
 	int index;
 	char output[2];
@@ -395,6 +449,7 @@ void DisplayLocal(int curLocationY, int key, struct fileTransfer *info)
 	static int goodGo[MAXFILESIZE];
 	int valid = 0;
 	int done = CHECK;
+	int returndat = 0;
 
 	sprintf(output, "%c", key);
 	//if delete key is pressed
@@ -456,13 +511,25 @@ void DisplayLocal(int curLocationY, int key, struct fileTransfer *info)
 		//print green checkmark
 		CHECKMARK(3);
 		ConsMoveCursor(curLocationY, localx);
+		returndat = 1;
+		if (doneFlag == 1)
+		{
+			ConsDisplayAttr(15, 0, "__________", WHITE);
+			ConsDisplayAttr(16, 0, "|  Done  |", WHITE);
+			ConsDisplayAttr(17, 0, "----------", WHITE);
+			ConsMoveCursor(curLocationY, localx);
+		}
 	}
 	else
 	{
 		//print red x
 		RED_X(3);
+		ConsDisplayAttr(15, 0, "           ", WHITE);
+		ConsDisplayAttr(16, 0, "           ", WHITE);
+		ConsDisplayAttr(17, 0, "           ", WHITE);
 		ConsMoveCursor(curLocationY, localx);
 	}
+	return returndat;
 }
 
 /* DisplayDest(int curLocationY, int key)
@@ -476,7 +543,7 @@ void DisplayLocal(int curLocationY, int key, struct fileTransfer *info)
 * return:
 * none
 */
-void DisplayDest(int curLocationY, int key, struct fileTransfer *info)
+int DisplayDest(int curLocationY, int key, struct fileTransfer *info, int doneFlag)
 {
 	int index;
 	static int destx = STARTLOC;
@@ -487,6 +554,7 @@ void DisplayDest(int curLocationY, int key, struct fileTransfer *info)
 	static int goodGo[MAXFILESIZE] = {1};
 	int valid = 0;
 	int done = CHECK;
+	int returndat = 0;
 
 	sprintf(output, "%c", key);
 	//if delete key is pressed
@@ -549,11 +617,24 @@ void DisplayDest(int curLocationY, int key, struct fileTransfer *info)
 		//print green checkmark
 		CHECKMARK(4);
 		ConsMoveCursor(curLocationY, destx);
+		returndat = 1;
+		//creates the done button when the everything is correct
+		if (doneFlag == 1)
+		{
+			ConsDisplayAttr(15, 0, "__________", WHITE);
+			ConsDisplayAttr(16, 0, "|  Done  |", WHITE);
+			ConsDisplayAttr(17, 0, "----------", WHITE);
+			ConsMoveCursor(curLocationY, destx);
+		}
 	}
 	else
 	{
 		//print red x
 		RED_X(4);
+		ConsDisplayAttr(15, 0, "           ", WHITE);
+		ConsDisplayAttr(16, 0, "           ", WHITE);
+		ConsDisplayAttr(17, 0, "           ", WHITE);
 		ConsMoveCursor(curLocationY, destx);
 	}
+	return returndat;
 }
