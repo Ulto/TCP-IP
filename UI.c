@@ -78,11 +78,11 @@ void CreateUIMenu(int menu)
 		break;
 	case 3:
 		printf("Status Window\n");
-		printf(" ______________________________________________________________________________\n");
-		printf("|                                                                              |\n");
-		printf("|                                                                              |\n");
-		printf("|                                                                              |\n");
-		printf(" ------------------------------------------------------------------------------\n");
+		printf(" _____________________________________________________________________________\n");
+		printf("|                                                                             |\n");
+		printf("|                                                                             |\n");
+		printf("|                                                                             |\n");
+		printf(" -----------------------------------------------------------------------------\n");
 		break;
 	}
 
@@ -204,6 +204,7 @@ int DisplayIP(int curLocationY, int key, struct fileTransfer *info, int doneFlag
 	int valid = 0;
 	int done = CHECK;
 	int returndat = 0;
+	int tempSize = 0;
 
 	sprintf(output, "%c", key);
 
@@ -271,6 +272,25 @@ int DisplayIP(int curLocationY, int key, struct fileTransfer *info, int doneFlag
 					count = 0;
 					//jump over the .
 					ipx++;
+					//finding the size of the section
+					for (index = 2; index >= 0; index--)
+					{
+						tempSize = (tempSize * 10) + (info->ui.ipAddress[ipx - STARTLOC - index - 2] - '0');
+					}
+					//if the size for the section is too big, set color to red and set flag for bad characters
+					if (tempSize >= 257)
+					{
+						for (index = 2; index >= 0; index--)
+						{
+							//changing only the one character that needs changed instead of the whole array
+							output[0] = info->ui.ipAddress[ipx - STARTLOC - index - 2];
+							//changing color to red
+							ConsDisplayAttr(curLocationY, ipx - index - 2, output, RED);
+							//setting the bad flag to zero to indicate bad character
+							goodGo[(maxcnt - index - 1)] = 0;
+						}
+					}
+					ConsMoveCursor(curLocationY, ipx);
 					//move the cursor
 					ConsMoveCursor(curLocationY, ipx);
 
@@ -281,6 +301,26 @@ int DisplayIP(int curLocationY, int key, struct fileTransfer *info, int doneFlag
 		}
 		if (maxcnt == ADDRESSMAX)
 		{
+			ipx++;
+			//finding the size of the section
+			for (index = 2; index >= 0; index--)
+			{
+				tempSize = (tempSize * 10) + (info->ui.ipAddress[ipx - STARTLOC - index - 2] - '0');
+			}
+			//if the size for the section is too big, set color to red and set flag for bad characters
+			if (tempSize >= 257)
+			{
+				for (index = 2; index >= 0; index--)
+				{
+					//changing only the one character that needs changed instead of the whole array
+					output[0] = info->ui.ipAddress[ipx - STARTLOC - index - 2];
+					//changing color to red
+					ConsDisplayAttr(curLocationY, ipx - index - 2, output, RED);
+					//setting the bad flag to zero to indicate bad character
+					goodGo[(maxcnt - index - 1)] = 0;
+				}
+			}
+			ipx--;
 			//check to make sure all the characters are valid
 			for (index = 0; index < ADDRESSMAX; index++)
 			{
@@ -329,6 +369,7 @@ int DisplaySub(int curLocationY, int key, struct fileTransfer *info, int doneFla
 	static int goodGo[ADDRESSMAX] = { 0 };
 	int valid = 0;
 	int returndat = 0;
+	int tempSize = 0;
 
 
 	sprintf(output, "%c", key);
@@ -398,14 +439,54 @@ int DisplaySub(int curLocationY, int key, struct fileTransfer *info, int doneFla
 					//jump over the .
 					subx++;
 					//move the cursor
+					
+					//finding the size of the section
+					for (index = 2; index >= 0; index--)
+					{
+						tempSize = (tempSize*10) + (info->ui.ipAddress[subx - STARTLOC - index - 2] - '0');
+					}
+					//if the size for the section is too big, set color to red and set flag for bad characters
+					if (tempSize >= 257)
+					{
+						for (index = 2; index >= 0; index--)
+						{
+							//changing only the one character that needs changed instead of the whole array
+							output[0] = info->ui.ipAddress[subx - STARTLOC - index - 2];
+							//changing color to red
+							ConsDisplayAttr(curLocationY, subx-index-2, output, RED);
+							//setting the bad flag to zero to indicate bad character
+							goodGo[(maxcnt - index - 1)] = 0;
+						}
+					}
 					ConsMoveCursor(curLocationY, subx);
 				}
 				//if its at the end
 
 			}
 		}
+		
 		if (maxcnt == ADDRESSMAX)
 		{
+			subx++;
+			//finding the size of the section
+			for (index = 2; index >= 0; index--)
+			{
+				tempSize = (tempSize * 10) + (info->ui.ipAddress[subx - STARTLOC - index - 2] - '0');
+			}
+			//if the size for the section is too big, set color to red and set flag for bad characters
+			if (tempSize >= 257)
+			{
+				for (index = 2; index >= 0; index--)
+				{
+					//changing only the one character that needs changed instead of the whole array
+					output[0] = info->ui.ipAddress[subx - STARTLOC - index - 2];
+					//changing color to red
+					ConsDisplayAttr(curLocationY, subx - index - 2, output, RED);
+					//setting the bad flag to zero to indicate bad character
+					goodGo[(maxcnt - index - 1)] = 0;
+				}
+			}
+			subx--;
 			//check to make sure all the characters are valid
 			for (index = 0; index < 12; index++)
 			{
@@ -450,7 +531,7 @@ int DisplayLocal(int curLocationY, int key, struct fileTransfer *info, int doneF
 	char output[2];
 	static int localx = STARTLOC;
 	int badFlag = 0;
-	char badChar[] = { 92, ':', '*', '?', '"', '<', '>', '|' };
+	char badChar[] = BADCHAR;
 	static int maxcnt = 0;
 	static int goodGo[MAXFILESIZE];
 	int valid = 0;
@@ -498,6 +579,7 @@ int DisplayLocal(int curLocationY, int key, struct fileTransfer *info, int doneF
 				{
 					ConsDisplayAttr(curLocationY, localx, output, WHITE);
 					goodGo[maxcnt] = 1;
+					info->ui.filePath[localx - STARTLOC] = key;
 				}
 				//increase the x position of the cursor
 				localx++;
@@ -549,7 +631,7 @@ int DisplayDest(int curLocationY, int key, struct fileTransfer *info, int doneFl
 	static int destx = STARTLOC;
 	char output[2];
 	int badFlag = 0;
-	char badChar[] = { 92, ':', '*', '?', '"', '<', '>', '|' };
+	char badChar[] = BADCHAR;
 	static int maxcnt = 0;
 	static int goodGo[MAXFILESIZE] = { 1 };
 	int valid = 0;
@@ -596,6 +678,7 @@ int DisplayDest(int curLocationY, int key, struct fileTransfer *info, int doneFl
 				if (badFlag != 1)
 				{
 					ConsDisplayAttr(curLocationY, destx, output, WHITE);
+					info->ui.filePath[destx - STARTLOC] = key;
 					goodGo[maxcnt] = 1;
 				}
 				//increase the x position of the cursor
