@@ -12,6 +12,7 @@
 #define CHECK		    251		//checkmark ascii value
 #define WRONG		    "X"		// x ascii value
 #define DELETEKEY		8		//delete character ascii value
+#define ENTERKEY		13
 
 #define STARTLOC		22
 
