@@ -24,11 +24,10 @@ void UserInt(struct fileTransfer *info)
 		break;
 	case 2:
 		CreateUIMenu(1);
-		while (1)
-		{
-			//gets the user input 
-			UserInput(info);
-		}
+		//gets the user input 
+		UserInput(info);
+		CreateUIMenu(3);
+		choice++;
 		break;
 	}
 
@@ -150,6 +149,10 @@ void UserInput(struct fileTransfer *info)
 			//the file destination line
 		case 5:
 			destFlag = DisplayDest(curLocationY, key, info, doneFlag);
+			break;
+		}
+		if (key == ENTERKEY && curLocationY == 1 && doneFlag == 1)
+		{
 			break;
 		}
 		if (ipFlag == 1 && subFlag == 1 && localFlag == 1 && destFlag == 1 && curLocationY != 1)
