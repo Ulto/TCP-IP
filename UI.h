@@ -16,6 +16,7 @@
 #define QUESTMARK		63
 
 #define STARTLOC		22
+#define BADCHAR			{ 92, ':', '*', '?', '"', '<', '>', '|', '^' }
 
 #define RED			    4		//attribute value for red
 #define GREEN		    2		//attribute value for green
