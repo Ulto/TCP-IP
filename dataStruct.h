@@ -19,7 +19,7 @@ struct network
 	FILETIME accessDate;
 	FILETIME modifyDate;
     FILE* ourFile;
-    char buffer[1500];
+    char buffer[2048];
     int length;
 };
 
