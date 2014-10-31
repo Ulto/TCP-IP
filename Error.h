@@ -5,7 +5,7 @@
 enum ErrorCodes{
     OK = 0,
 	/* Zach Errors - 1xx */
-	placeholder = 100,
+	Control_OpenFail = 100,
 
 	/* Chris Errors - 2xx */
 	placeholder2 = 200,
