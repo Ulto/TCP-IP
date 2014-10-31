@@ -25,7 +25,7 @@ struct network
 
 struct fileTransfer
 {
-    int error;
+    enum ErrorCodes ERR;
     int command;
 
     struct userInt ui;
