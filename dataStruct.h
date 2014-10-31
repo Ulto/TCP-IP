@@ -6,11 +6,12 @@
 
 struct userInt
 {
-    char subnet[16];
-    char ipAddress[16];
-    char filePath[100];
-    char destination[100];
-    int port;
+	char subnet[16];
+	char ipAddress[16];
+	char filePath[100];
+	char fileName[25];
+	char destination[100];
+	int port;
 };
 
 struct network
@@ -18,18 +19,18 @@ struct network
 	FILETIME creationDate;
 	FILETIME accessDate;
 	FILETIME modifyDate;
-    FILE* ourFile;
-    char buffer[2048];
-    int length;
+	FILE* ourFile;
+	char buffer[1500];
+	int length;
 };
 
 struct fileTransfer
 {
-    enum ErrorCodes ERR;
-    int command;
+	int error;
+	int command;
 
-    struct userInt ui;
-    struct network net;
+	struct userInt ui;
+	struct network net;
 
 };
 
