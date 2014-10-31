@@ -1,7 +1,7 @@
 /*
-	CMPET 457
-	Lab 4
-	Fall 2014
+CMPET 457
+Lab 4
+Fall 2014
 */
 
 
@@ -18,7 +18,7 @@ int main()
 {
 	// Declare & Initialize Data Structure(s)
 	struct fileTransfer FT;
-	memset(&FT, '0', sizeof(FT));
+	memset(&FT, '\0', sizeof(FT));
 
 	// Invoke User Interface
 	UserInt(&FT);
