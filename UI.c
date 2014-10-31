@@ -35,6 +35,8 @@ void UserInt(struct fileTransfer *info)
 		//gets the user input 
 		UserInput(info);
 		CreateUIMenu(3);
+		ConsMoveCursor(16, 0);
+		printf("%s\n%s\n%s\n%s\n", info->ui.ipAddress, info->ui.subnet, info->ui.filePath, info->ui.destination);
 		choice++;
 		break;
 	}
@@ -116,7 +118,7 @@ void UserInput(struct fileTransfer *info)
 		key = getch();
 
 		//if tab has been pressed /*will #define soon */
-		if (key == 9)
+		if (key == TAB)
 		{
 			//move the line
 			curLocationY++;
@@ -423,7 +425,7 @@ int DisplaySub(int curLocationY, int key, struct fileTransfer *info, int doneFla
 				{
 					ConsDisplayAttr(curLocationY, subx, output, WHITE);
 					goodGo[maxcnt] = 1;
-					info->ui.ipAddress[subx - STARTLOC] = key;
+					info->ui.subnet[subx - STARTLOC] = key;
 				}
 				//increase the x position of the cursor
 				subx++;
@@ -433,17 +435,17 @@ int DisplaySub(int curLocationY, int key, struct fileTransfer *info, int doneFla
 				//if the end of the section is reached
 				if (count == SECTIONSIZE && maxcnt != ADDRESSMAX)
 				{
-					info->ui.ipAddress[subx - STARTLOC] = '.';
+					info->ui.subnet[subx - STARTLOC] = '.';
 					//goto the next section
 					count = 0;
 					//jump over the .
 					subx++;
 					//move the cursor
-					
+
 					//finding the size of the section
 					for (index = 2; index >= 0; index--)
 					{
-						tempSize = (tempSize*10) + (info->ui.ipAddress[subx - STARTLOC - index - 2] - '0');
+						tempSize = (tempSize * 10) + (info->ui.subnet[subx - STARTLOC - index - 2] - '0');
 					}
 					//if the size for the section is too big, set color to red and set flag for bad characters
 					if (tempSize >= 257)
@@ -451,9 +453,9 @@ int DisplaySub(int curLocationY, int key, struct fileTransfer *info, int doneFla
 						for (index = 2; index >= 0; index--)
 						{
 							//changing only the one character that needs changed instead of the whole array
-							output[0] = info->ui.ipAddress[subx - STARTLOC - index - 2];
+							output[0] = info->ui.subnet[subx - STARTLOC - index - 2];
 							//changing color to red
-							ConsDisplayAttr(curLocationY, subx-index-2, output, RED);
+							ConsDisplayAttr(curLocationY, subx - index - 2, output, RED);
 							//setting the bad flag to zero to indicate bad character
 							goodGo[(maxcnt - index - 1)] = 0;
 						}
@@ -464,14 +466,14 @@ int DisplaySub(int curLocationY, int key, struct fileTransfer *info, int doneFla
 
 			}
 		}
-		
+
 		if (maxcnt == ADDRESSMAX)
 		{
 			subx++;
 			//finding the size of the section
 			for (index = 2; index >= 0; index--)
 			{
-				tempSize = (tempSize * 10) + (info->ui.ipAddress[subx - STARTLOC - index - 2] - '0');
+				tempSize = (tempSize * 10) + (info->ui.subnet[subx - STARTLOC - index - 2] - '0');
 			}
 			//if the size for the section is too big, set color to red and set flag for bad characters
 			if (tempSize >= 257)
@@ -479,7 +481,7 @@ int DisplaySub(int curLocationY, int key, struct fileTransfer *info, int doneFla
 				for (index = 2; index >= 0; index--)
 				{
 					//changing only the one character that needs changed instead of the whole array
-					output[0] = info->ui.ipAddress[subx - STARTLOC - index - 2];
+					output[0] = info->ui.subnet[subx - STARTLOC - index - 2];
 					//changing color to red
 					ConsDisplayAttr(curLocationY, subx - index - 2, output, RED);
 					//setting the bad flag to zero to indicate bad character
@@ -549,6 +551,7 @@ int DisplayLocal(int curLocationY, int key, struct fileTransfer *info, int doneF
 			localx--;
 			maxcnt--;
 			goodGo[maxcnt] = 0;
+			info->ui.filePath[localx - STARTLOC] = '\0';
 		}
 		//moving back one and replacing the _
 		ConsDisplayAttr(curLocationY, localx, " ", WHITE);
@@ -561,7 +564,7 @@ int DisplayLocal(int curLocationY, int key, struct fileTransfer *info, int doneF
 			//moves cursor to current location
 			ConsMoveCursor(curLocationY, localx);
 			//if its not a tab keypress
-			if (key != 9)
+			if (key != TAB)
 			{
 				//making sure it is a valid character to be used in filenames
 				for (index = 0; badChar[index] != '\0'; index++)
@@ -649,6 +652,7 @@ int DisplayDest(int curLocationY, int key, struct fileTransfer *info, int doneFl
 			destx--;
 			maxcnt--;
 			goodGo[maxcnt] = 0;
+			info->ui.destination[destx - STARTLOC] = '\0';
 		}
 		//moving back one and replacing the _
 		ConsDisplayAttr(curLocationY, destx, " ", WHITE);
@@ -661,7 +665,7 @@ int DisplayDest(int curLocationY, int key, struct fileTransfer *info, int doneFl
 			//moves cursor to current location
 			ConsMoveCursor(curLocationY, destx);
 			//if its not a tab keypress
-			if (key != 9)
+			if (key != TAB)
 			{
 				//making sure it is a valid character to be used in filenames
 				for (index = 0; badChar[index] != '\0'; index++)
@@ -678,7 +682,7 @@ int DisplayDest(int curLocationY, int key, struct fileTransfer *info, int doneFl
 				if (badFlag != 1)
 				{
 					ConsDisplayAttr(curLocationY, destx, output, WHITE);
-					info->ui.filePath[destx - STARTLOC] = key;
+					info->ui.destination[destx - STARTLOC] = key;
 					goodGo[maxcnt] = 1;
 				}
 				//increase the x position of the cursor
