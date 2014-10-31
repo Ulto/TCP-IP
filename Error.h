@@ -11,7 +11,9 @@ enum ErrorCodes{
 	placeholder2 = 200,
 
 	/* Greg Errors - 3xx */
-	Err_OpenFail = 300,      /* The file failed to open in the Receive Side */
+	Receive_OpenFail = 300,     /* The file failed to open in the Receive Side */
+    	Receive_CloseFail,          /* File failed to close in Receive Side */
+	Receive_RenameFail          /* File failed to rename in Receive Side */
 
 };
 
