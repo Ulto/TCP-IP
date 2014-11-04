@@ -28,6 +28,9 @@ enum Control(struct fileTransfer *FT)
 		ntwk = NTWK_transmit(FT);
 	}
 
-    // Return
+    // Closefile
+    fclose(fhandle);
+    
+    // return
     return(ntwk);
-}
+    
