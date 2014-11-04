@@ -57,7 +57,7 @@ int NTWK_Receive(struct fileTransfer *sptr)
     if (errorNTWK < 0)
     {
         /*Create error code*/
-        errorNTWK = 206 - errorNTWK;
+        errorNTWK = 200 - errorNTWK;
     }
     return(errorNTWK);
 }
@@ -111,7 +111,7 @@ int NTWK_Transmit(struct fileTransfer *sptr)
     if (errorNTWK < 0)
     {
         /*Create error code*/
-        errorNTWK = 206 - errorNTWK;
+        errorNTWK = 200 - errorNTWK;
     }
     return(errorNTWK);
 }
