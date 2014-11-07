@@ -1,12 +1,11 @@
 #include "cons.h"
 #include "dataStruct.h"
+#include "Error.h"
 
 #ifndef UI_H
 #define UI_H
 
 #define ADDRESSMAX		12		//ip and subnet max length
-#define MAXFILESIZE		100		//maximum length of the file path
-#define MAXFILELENGTH	25		//maximum length of the file name
 #define SECTIONSIZE		3		//size of each section of ip/subnet
 #define MAXIPRANGE		256		//max size of a single section of ip/subnet
 
@@ -30,6 +29,11 @@
 
 #define CHECKMARK(id)	ConsDisplayAttr(9+id, 23, &done, GREEN)		//macro to display the checkmark
 #define RED_X(id)		ConsDisplayAttr(9+id, 23, WRONG, RED)		//macro to display the X
+
+struct ErrorDisplay {
+	enum ErrorCode ERR;
+	char display[100];
+};
 
 
 void CreateUIMenu(int);
