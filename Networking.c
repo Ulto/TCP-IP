@@ -106,10 +106,6 @@ int NTWK_Transmit(struct fileTransfer *sptr)
             from the file stream and stores them in the block of memory specified by buffer.*/
             (sptr->net.Bytes) = fread(sptr->net.buffer, sizeof(char), sizeof(sptr->net.buffer), sptr->net.ourFile);
 
-            /*If there is no amount of data to be transmitted*//*Maybe get rid of this*/
-            if (sptr->net.Bytes == 0)
-                break;
-
             /*Send data structure to recieving computer and return errors*/
             errorNTWK = NtwkSend(sizeof(*sptr), sptr);
 
@@ -121,7 +117,7 @@ int NTWK_Transmit(struct fileTransfer *sptr)
             sptr->net.Bytes = NtwkRecv(sizeof(sptr->ERR), &sptr->ERR);
 
             /*Error*/ 
-            if (sptr->net.Bytes < 0  || sptr->ERR != OK)
+            if (sptr->net.Bytes <= 0  || sptr->ERR != OK)
                 break;
         }
         fclose(sptr->net.ourFile);
