@@ -30,7 +30,7 @@ void UserInt(struct fileTransfer *info)
 
 	info->ui.port = 1500;
 
-#if 0
+
 	while (choice != 0)
 	{
 		do
@@ -48,16 +48,26 @@ void UserInt(struct fileTransfer *info)
 			case 0:
 				break;
 			case 1:
+
 				CreateUIMenu(2);
 				NTWK_Receive(info);
 				break;
 			case 2:
+#if 0
 				CreateUIMenu(1);
 				//gets the user input 
 				UserInput(info);
-				choice++;
+				
 				//
 				//printf("%s\n%s\n%s\n%s\n%s\n", info->ui.ipAddress, info->ui.subnet, info->ui.fileName, info->ui.filePath, info->ui.destination);
+#else
+				strcpy(info->ui.fileName, "test.txt");
+				strcpy(info->ui.filePath, "C:\\Users\\ddr5040\\Downloads");
+				strcpy(info->ui.destination, "C:\\Users\\gzp5050\\Downloads");
+				strcpy(info->ui.ipAddress, "128.118.255.194");
+				strcpy(info->ui.subnet, "255.255.255.000");
+#endif
+				choice++;
 				break;
 			case 3:
 				CreateUIMenu(3);
@@ -67,15 +77,7 @@ void UserInt(struct fileTransfer *info)
 			}
 		}
 	}
-#else
-	strcpy(info->ui.fileName, "test.txt");
-	strcpy(info->ui.filePath, "C:\\Users\\ddr5040\\Downloads");
-	strcpy(info->ui.destination, "C:\\Users\\gzp5050\\Downloads");
-	strcpy(info->ui.ipAddress, "128.118.255.194");
-	strcpy(info->ui.subnet, "255.255.255.000");
-	CreateUIMenu(3);
-	StatusWindow(info);
-#endif
+
 
 	//frees the console
 	ConsExit();
