@@ -4,26 +4,26 @@
 #include <sys/stat.h>
 
 
-
+FILE * rfile;
 
 enum ErrorCodes Receive_Open(struct fileTransfer *RC)
 {
 
 	enum ErrorCodes rcv = OK;
 
-	strcpy(RC->ui.destination, TEMP_FILE);
+	strcat(RC->ui.destination, TEMP_FILE);
 
-	if (Receive_fileExists(RC) == 1 && !RC->Overwrite) {
+	//if (Receive_fileExists(RC) == 1 && RC->Overwrite != 1) {
 		// file already exists
-		rcv = Receive_FileAlreadyExists;
-	}
-	else 
-	{
+	//	rcv = Receive_FileAlreadyExists;
+	//}
+	//else 
+	//{
 		// file doesn't exist or overwrite flag is high
-		RC->net.ourFile = fopen(RC->ui.destination, "w+");	/* Open a temporary file with Read/Write plus overwrite */
-	}
+		rfile = fopen(RC->ui.destination, "w+");	/* Open a temporary file with Read/Write plus overwrite */
+	//}
 
-	if (RC->net.ourFile == NULL)
+	if (rfile == NULL)
 		rcv = Receive_OpenFail;
 
 
@@ -49,7 +49,7 @@ enum ErrorCodes Receive_Write(struct fileTransfer *RC)
 	enum Errorcodes rcv = OK;
 	size_t written;
 
-	written = fwrite(RC->net.buffer, 1, RC->net.Bytes, RC->net.ourFile);
+	written = fwrite(RC->net.buffer, 1, RC->net.Bytes, rfile);
 
 	if (written != RC->net.Bytes)
 		rcv = Receive_FileWriteFail;
@@ -64,7 +64,7 @@ enum ErrorCodes Receive_CompleteTransfer(struct fileTransfer *RC)
 	int err;
 	enum ErrorCodes rcv = OK;
 
-	err = fclose(RC->net.ourFile);	/* Close the file */
+	err = fclose(rfile);	/* Close the file */
 
 	if (err != 0)
 		rcv = Receive_CloseFail;
@@ -78,3 +78,5 @@ enum ErrorCodes Receive_CompleteTransfer(struct fileTransfer *RC)
 
 	return rcv;	
 }
+
+
