@@ -10,7 +10,7 @@ enum Control(struct fileTransfer *FT)
     char fileLocation[MAXFILESIZE + 1 + MAXFILELENGTH];
 
 	// Create full file path.
-	sprintf(fileLocation, "%s%s%s", FT->ui.filePath, "\", FT->ui.fileName);
+	sprintf(fileLocation, "%s%s%s", FT->ui.filePath, '\', FT->ui.fileName);
 	
     // Attempt to Open File
 	file_handle = fopen(fileLocation, "r");
