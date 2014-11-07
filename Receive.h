@@ -8,7 +8,7 @@
 int Receive_Open(struct fileTransfer*);
 int Receive_Write(struct fileTrasnfer *RC);
 int Receive_CompleteTransfer(struct fileTransfer *RC);
-
+BOOL Receive_fileExists(struct fileTransfer*);
 
 
 
