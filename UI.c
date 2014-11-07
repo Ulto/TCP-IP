@@ -77,6 +77,7 @@ void UserInt(struct fileTransfer *info)
 				CreateUIMenu(3);
 				StatusWindow(info);
 				choice++;
+				Sleep(5000);
 				break;
 			}
 		}
