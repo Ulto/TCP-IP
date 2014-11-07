@@ -33,6 +33,7 @@
 
 
 void CreateUIMenu(int);
+void UserInt(struct fileTransfer *info);
 void UserInput(struct fileTransfer *info);
 void StatusWindow(struct fileTransfer *info);
 int DisplayIP(int curLocationY, int key, struct fileTransfer *info, int doneFlag);
