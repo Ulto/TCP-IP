@@ -23,6 +23,7 @@ struct network
 	FILETIME modifyDate;
 	FILE* ourFile;
 	char buffer[BUFFSIZE];
+	int Bytes;
 	int length;
 };
 
@@ -30,6 +31,7 @@ struct fileTransfer
 {
 	enum ErrorCode ERR;
 	int command;
+	int Overwrite;
 
 	struct userInt ui;
 	struct network net;
