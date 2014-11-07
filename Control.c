@@ -26,7 +26,7 @@ enum Errorcodes Control(struct fileTransfer *FT)
 		FT->net.ourFile = file_handle;
 
 		// Call Network Function
-		ntwk = NTWK_transmit(FT);
+		ntwk = NTWK_Transmit(FT);
 	}
 
     // Close File
