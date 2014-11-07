@@ -1,4 +1,6 @@
 #include"ntwk.h"
+#include"datastructure.h"
+
 
 /*Network recieve*/
 int NTWK_Receive(struct fileTransfer *sptr);
