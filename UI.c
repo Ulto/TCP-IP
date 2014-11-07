@@ -23,23 +23,30 @@ void UserInt(struct fileTransfer *info)
 
 		} while (choice != 0 && choice != 1 && choice != 2);
 
-
-		switch (choice)
+		while (choice != 4)
 		{
-		case 0:
-			break;
-		case 1:
-			CreateUIMenu(2);
-			//int NTWK_Receive(info);
-			break;
-		case 2:
-			CreateUIMenu(1);
-			//gets the user input 
-			UserInput(info);
-			CreateUIMenu(3);
-			//
-			printf("%s\n%s\n%s\n%s\n%s\n", info->ui.ipAddress, info->ui.subnet, info->ui.fileName, info->ui.filePath, info->ui.destination);
-			break;
+			switch (choice)
+			{
+			case 0:
+				break;
+			case 1:
+				CreateUIMenu(2);
+				//NTWK_Receive(info);
+				break;
+			case 2:
+				CreateUIMenu(1);
+				//gets the user input 
+				UserInput(info);
+				choice++;
+				//
+				//printf("%s\n%s\n%s\n%s\n%s\n", info->ui.ipAddress, info->ui.subnet, info->ui.fileName, info->ui.filePath, info->ui.destination);
+				break;
+			case 3:
+				CreateUIMenu(3);
+				StatusWindow(info);
+				choice++;
+				break;
+			}
 		}
 	}
 
@@ -48,6 +55,15 @@ void UserInt(struct fileTransfer *info)
 	ConsExit();
 }
 
+/* CreateUIMenu(int menu)
+* displays the menus
+*
+* input:
+* menu: id of which menu to show
+*
+* return:
+* none
+*/
 void CreateUIMenu(int menu)
 {
 	ConsClear();
@@ -95,6 +111,15 @@ void CreateUIMenu(int menu)
 
 }
 
+/* UserInput(struct fileTransfer *info)
+* gets the data from the user
+*
+* input:
+* *info: the data structure that holds all the data
+*
+* return:
+* none
+*/
 void UserInput(struct fileTransfer *info)
 {
 
@@ -195,6 +220,23 @@ void UserInput(struct fileTransfer *info)
 	}
 
 }
+
+/* StatusWindow(struct fileTransfer *info)
+* displays the status window and the error codes that are returned
+*
+* input:
+* *info: the data structure that holds all the data
+*
+* return:
+* none
+*/
+void StatusWindow(struct fileTransfer *info)
+{
+	enum ErrorCode displayError;
+	
+	displayError = Control(info);
+}
+
 /* DisplayIP(int curLocationY, int key)
 * displays the keys that are pressed into this line
 *
@@ -294,7 +336,7 @@ int DisplayIP(int curLocationY, int key, struct fileTransfer *info, int doneFlag
 						tempSize = (tempSize * 10) + (info->ui.ipAddress[ipx - STARTLOC - index - 2] - '0');
 					}
 					//if the size for the section is too big, set color to red and set flag for bad characters
-					if (tempSize >= 257)
+					if (tempSize >= MAXIPRANGE)
 					{
 						for (index = 2; index >= 0; index--)
 						{
@@ -324,7 +366,7 @@ int DisplayIP(int curLocationY, int key, struct fileTransfer *info, int doneFlag
 				tempSize = (tempSize * 10) + (info->ui.ipAddress[ipx - STARTLOC - index - 2] - '0');
 			}
 			//if the size for the section is too big, set color to red and set flag for bad characters
-			if (tempSize >= 257)
+			if (tempSize >= MAXIPRANGE)
 			{
 				for (index = 2; index >= 0; index--)
 				{
@@ -462,7 +504,7 @@ int DisplaySub(int curLocationY, int key, struct fileTransfer *info, int doneFla
 						tempSize = (tempSize * 10) + (info->ui.subnet[subx - STARTLOC - index - 2] - '0');
 					}
 					//if the size for the section is too big, set color to red and set flag for bad characters
-					if (tempSize >= 257)
+					if (tempSize >= MAXIPRANGE)
 					{
 						for (index = 2; index >= 0; index--)
 						{
@@ -490,7 +532,7 @@ int DisplaySub(int curLocationY, int key, struct fileTransfer *info, int doneFla
 				tempSize = (tempSize * 10) + (info->ui.subnet[subx - STARTLOC - index - 2] - '0');
 			}
 			//if the size for the section is too big, set color to red and set flag for bad characters
-			if (tempSize >= 257)
+			if (tempSize >= MAXIPRANGE)
 			{
 				for (index = 2; index >= 0; index--)
 				{
