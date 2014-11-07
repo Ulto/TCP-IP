@@ -37,38 +37,38 @@ int NTWK_Receive(struct fileTransfer *sptr)
                 break;
             }
 
-	if (sptr->net.Bytes == 0)
-	{
-		/* Transfer complete, close file */
-		errorNTWK = Receive_CompleteTransfer(sptr);
-	}
-	else
-	{
+			if (sptr->net.Bytes == 0)
+			{
+				/* Transfer complete, close file */
+				errorNTWK = Receive_CompleteTransfer(sptr);
+			}
+			else
+			{
 
-		/* If this is the first RX receive or Overwrite is true, Open the file */
-		if (firstRX == 1 || sptr->Overwrite)
-		{
-			firstRX = 0;
-			errorNTWK = Receive_Open(sptr);
-			errorNTWK = Receive_Write(sptr);
-		}
-		else
-		{
-			errorNTWK = Receive_Write(sptr);
-		}
+				/* If this is the first RX receive or Overwrite is true, Open the file */
+				if (firstRX == 1 || sptr->Overwrite)
+				{
+					firstRX = 0;
+					errorNTWK = Receive_Open(sptr);
+					errorNTWK = Receive_Write(sptr);
+				}
+				else
+				{
+					errorNTWK = Receive_Write(sptr);
+				}
 
-	}	
+			}	
 
         	/*Send packet to send program*/
         	errorNTWK = NtwkSend(sizeof(errorNTWK), &errorNTWK);
 
-         /*If error, then break out of loop*/
-            if (errorNTWK < 0)
+			/*If error, then break out of loop*/
+            if (errorNTWK != OK || errorNTWK == Receive_Done)
                 break;
         }
     }
 
-    if (errorNTWK == 0)
+    if (errorNTWK == Receive_Done)
     {
         /*Exit Network*/
         errorNTWK = NtwkExit();
