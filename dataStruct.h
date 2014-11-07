@@ -40,11 +40,4 @@ struct fileTransfer
 
 };
 
-struct errorDisplay
-{
-	enum ErrorCode ERR;
-	char codeDisplay[50];
-
-};
-
 #endif /* DATASTRUCT_H */
