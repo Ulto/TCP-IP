@@ -9,7 +9,7 @@ enum Control(struct fileTransfer *FT)
     enum ErrorCodes ntwk;
     char fileLocation[MAXFILESIZE + 1 + MAXFILELENGTH];
 
-	// Create full file path.
+	// Concatenate File Path & Name
 	sprintf(fileLocation, "%s%s%s", FT->ui.filePath, "\\", FT->ui.fileName);
 	
     // Attempt to Open File
