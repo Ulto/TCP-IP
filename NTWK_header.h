@@ -8,16 +8,16 @@ int NTWK_Receive(struct fileTransfer *sptr);
 /*Network transmit*/
 int NTWK_Transmit(struct fileTransfer *sptr);
 
-int SendInit(char *ip_addrs, int port);
+extern int SendInit(char *ip_addrs, int port);
 
-int RecvInit(int port);
+extern int RecvInit(int port);
 
-int NtwkWait(void);
+extern int NtwkWait(void);
 
-int NtwkExit(void);
+extern int NtwkExit(void);
 
-int NtwkSend(int length, unsigned char *datap);
+extern int NtwkSend(int length, unsigned char *datap);
 
-int NtwkRecv(int length, unsigned char *datap);
+extern int NtwkRecv(int length, unsigned char *datap);
 
 
