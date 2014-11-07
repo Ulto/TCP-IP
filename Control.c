@@ -30,7 +30,7 @@ enum Errorcodes Control(struct fileTransfer *FT)
 	}
 
     // Close File
-    fclose(fhandle);
+    fclose(file_handle);
     
     // Return
     return(ntwk);
