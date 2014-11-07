@@ -3,7 +3,13 @@
 int buttLoc = 0;
 
 struct ErrorDisplay displayError[50] = {
-	{ Control_OpenFail, "This is the failuer" },
+	{ OK, "THE FILE HAS BEEN TRANSFERRED" },
+	{ Control_OpenFail, "OPEN Error" },
+	{ Ntwk_ERR_SEND_RECV, "Data didn't reach destination." },
+	{ Ntwk_ERR_CONN_FAIL, "Failed to make connection network." },
+	{ Ntwk_ERR_NTWK_FAIL, "Miscelaneous network failure." },
+	{ Ntwk_ERR_BAD_SEQ, "No socket connection" },
+	{ Ntwk_ERR_BAD_IP, "Invalid network ip address" },
 	{ Receive_OpenFail, "The file failed to open on the target computer." },
 	{ Receive_CloseFail, "The file failed to close on the target computer." },
 	{ Receive_RenameFail, "The file failed to rename on the target computer." },
@@ -23,6 +29,8 @@ void UserInt(struct fileTransfer *info)
 	CreateUIMenu(0);
 
 	info->ui.port = 1500;
+
+#if 0
 	while (choice != 0)
 	{
 		do
@@ -59,7 +67,15 @@ void UserInt(struct fileTransfer *info)
 			}
 		}
 	}
-
+#else
+	strcpy(info->ui.fileName, "test.txt");
+	strcpy(info->ui.filePath, "C:\\Users\\ddr5040\\Downloads");
+	strcpy(info->ui.destination, "C:\\Users\\gzp5050\\Downloads");
+	strcpy(info->ui.ipAddress, "128.118.255.194");
+	strcpy(info->ui.subnet, "255.255.255.000");
+	CreateUIMenu(3);
+	StatusWindow(info);
+#endif
 
 	//frees the console
 	ConsExit();
@@ -244,7 +260,8 @@ void StatusWindow(struct fileTransfer *info)
 	int index;
 	enum Errorcode ERR = Receive_CloseFail;
 	ERR = Control(info);
-
+	ConsMoveCursor(4, 2);
+	printf("%d", ERR);
 	for ( index = 0; displayError[index].ERR >= 0; index++)
 	{
 		if (displayError[index].ERR == ERR)
