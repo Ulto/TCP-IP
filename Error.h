@@ -9,6 +9,11 @@ enum ErrorCodes{
 
 	/* Chris Errors - 2xx */
 	placeholder2 = 200,
+	Ntwk_ERR_SEND_RECV,			/* Data didn't reach destination */
+	Ntwk_ERR_CONN_FAIL,			/* Failed to make connection network */
+	Ntwk_ERR_NTWK_FAIL,			/* Miscelaneous network failure */
+	Ntwk_ERR_BAD_SEQ,			/* No socket connection */
+	Ntwk_ERR_BAD_IP,			/* Invalid network ip address */
 
 	/* Greg Errors - 3xx */
 	Receive_OpenFail = 300,     /* The file failed to open in the Receive Side */
