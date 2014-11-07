@@ -15,9 +15,10 @@
 #define DELETEKEY		8		//delete character ascii value
 #define ENTERKEY		13		//enter key ascii value
 #define BACKSLASH		92		//backslash ascii value
+#define FORWARDSLASH	47
 
 #define STARTLOC		22		//location of the starting x position
-#define BADCHAR			{ BACKSLASH, '*', '?', '"', '<', '>', '|', '^' }
+#define BADCHAR			{47 , '*', '?', '"', '<', '>', '|', '^' }
 
 #define RED			    4		//attribute value for red
 #define GREEN		    2		//attribute value for green
