@@ -5,9 +5,9 @@
 
 #define TEMP_FILE "Temp.file"
 
-enum Receive_Open(struct fileTransfer*);
-enum Receive_Write(struct fileTransfer*);
-enum Receive_CompleteTransfer(struct fileTransfer*);
+enum ErrorCodes  Receive_Open(struct fileTransfer*);
+enum ErrorCodes  Receive_Write(struct fileTransfer*);
+enum ErrorCodes  Receive_CompleteTransfer(struct fileTransfer*);
 BOOL Receive_fileExists(struct fileTransfer*);
 
 
