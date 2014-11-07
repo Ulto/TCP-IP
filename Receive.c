@@ -6,7 +6,7 @@
 
 
 
-int Receive_Open(struct fileTransfer *RC)
+enum Receive_Open(struct fileTransfer *RC)
 {
 
 	enum ErrorCodes rcv = OK;
@@ -44,7 +44,7 @@ BOOL Receive_fileExists(struct fileTransfer *RC)
 }
 
 /************************************************************************************/
-int Receive_Write(struct fileTransfer *RC)
+enum Receive_Write(struct fileTransfer *RC)
 {
 	enum Errorcodes rcv = OK;
 	size_t written;
@@ -59,7 +59,7 @@ int Receive_Write(struct fileTransfer *RC)
 }
 
 /************************************************************************************/
-int Receive_CompleteTransfer(struct fileTransfer *RC)
+enum Receive_CompleteTransfer(struct fileTransfer *RC)
 {
 	int err;
 	enum ErrorCodes rcv = OK;
