@@ -28,7 +28,7 @@ int NTWK_Receive(struct fileTransfer *sptr)
             incomingLength = NtwkRecv(sizeof(*sptr), sptr);
 
             /*If incoming length is less then zero, then it's an error code.*/
-            if (incomingLength <= 0)
+            if (incomingLength < 0)
             {
                 /*Set error code from length error*/
                 errorNTWK = incomingLength;
@@ -78,9 +78,9 @@ int NTWK_Receive(struct fileTransfer *sptr)
     if (errorNTWK < 0)
     {
         /*Create error code*/
-        errorNTWK = 200 - errorNTWK;
+        sptr->ERR = 200 - errorNTWK;
     }
-    return(errorNTWK);
+    return(sptr->ERR);
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -106,7 +106,7 @@ int NTWK_Transmit(struct fileTransfer *sptr)
             from the file stream and stores them in the block of memory specified by buffer.*/
             (sptr->net.Bytes) = fread(sptr->net.buffer, sizeof(char), sizeof(sptr->net.buffer), sptr->net.ourFile);
 
-            /*If there is no amount of data to be transmitted*/
+            /*If there is no amount of data to be transmitted*//*Maybe get rid of this*/
             if (sptr->net.Bytes == 0)
                 break;
 
