@@ -3,6 +3,6 @@
 #ifndef CONTROL_H
 #define CONTROL_H
 
-int Control(struct fileTransfer*);
+enum Control(struct fileTransfer*);
 
 #endif /* CONTROL_H */
