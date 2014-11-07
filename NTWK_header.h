@@ -1,5 +1,5 @@
 #include"ntwk.h"
-#include"datastructure.h"
+#include"dataStruct.h "
 
 
 /*Network recieve*/
