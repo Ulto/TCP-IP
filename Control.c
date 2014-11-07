@@ -1,5 +1,4 @@
 #include "Control.h"
-#include "dataStruct.h"
 #include "Error.h"
 
 enum Control(struct fileTransfer *FT)
