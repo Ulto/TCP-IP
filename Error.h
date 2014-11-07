@@ -13,7 +13,9 @@ enum ErrorCodes{
 	/* Greg Errors - 3xx */
 	Receive_OpenFail = 300,     /* The file failed to open in the Receive Side */
     	Receive_CloseFail,          /* File failed to close in Receive Side */
-	Receive_RenameFail          /* File failed to rename in Receive Side */
+	Receive_RenameFail,          /* File failed to rename in Receive Side */
+	Receive_FileAlreadyExists,	/* File already exists in Receive Side */
+	Receive_FileWriteFail		/* During a File write, the system failed to write all data */
 
 };
 
