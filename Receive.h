@@ -3,7 +3,7 @@
 #ifndef RECEIVE_H
 #define RECEIVE_H
 
-#define TEMP_FILE "Temp.file"
+#define TEMP_FILE "\\Temp.file"
 
 enum ErrorCodes  Receive_Open(struct fileTransfer*);
 enum ErrorCodes  Receive_Write(struct fileTransfer*);
