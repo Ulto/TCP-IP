@@ -41,7 +41,7 @@ void UserInt(struct fileTransfer *info)
 				break;
 			case 1:
 				CreateUIMenu(2);
-				//NTWK_Receive(info);
+				NTWK_Receive(info);
 				break;
 			case 2:
 				CreateUIMenu(1);
@@ -252,6 +252,11 @@ void StatusWindow(struct fileTransfer *info)
 			ConsMoveCursor(4, 2);
 			printf("ERROR %d: %s", displayError[index].ERR, displayError[index].display);
 		}
+	}
+
+	if (ERR == Receive_FileAlreadyExists)
+	{
+
 	}
 }
 
