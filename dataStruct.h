@@ -4,6 +4,8 @@
 #ifndef DATASTRUCT_H
 #define DATASTRUCT_H
 
+#define BUFFSIZE 4096
+
 struct userInt
 {
 	char subnet[16];
@@ -20,17 +22,24 @@ struct network
 	FILETIME accessDate;
 	FILETIME modifyDate;
 	FILE* ourFile;
-	char buffer[1500];
+	char buffer[BUFFSIZE];
 	int length;
 };
 
 struct fileTransfer
 {
-	int error;
+	enum ErrorCode ERR;
 	int command;
 
 	struct userInt ui;
 	struct network net;
+
+};
+
+struct errorDisplay
+{
+	enum ErrorCode ERR;
+	char codeDisplay[50];
 
 };
 
