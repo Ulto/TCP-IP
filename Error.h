@@ -20,7 +20,8 @@ enum ErrorCodes{
     	Receive_CloseFail,          /* File failed to close in Receive Side */
 	Receive_RenameFail,          /* File failed to rename in Receive Side */
 	Receive_FileAlreadyExists,	/* File already exists in Receive Side */
-	Receive_FileWriteFail		/* During a File write, the system failed to write all data */
+	Receive_FileWriteFail,		/* During a File write, the system failed to write all data */
+	Receive_Done				/* The file was succesfully closed and renamed */
 
 };
 
