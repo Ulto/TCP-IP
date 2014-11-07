@@ -2,6 +2,16 @@
 
 int buttLoc = 0;
 
+struct ErrorDisplay displayError[50] = {
+	{ Control_OpenFail, "This is the failuer" },
+	{ Receive_OpenFail, "The file failed to open on the target computer." },
+	{ Receive_CloseFail, "The file failed to close on the target computer." },
+	{ Receive_RenameFail, "The file failed to rename on the target computer." },
+	{ Receive_FileAlreadyExists, "The file already exists on the target computer. Overwrite?" },
+	{ Receive_FileWriteFail, "During a File write, the system failed to write all data." },
+	{ -1, "" }
+};
+
 void UserInt(struct fileTransfer *info)
 {
 	int choice = 1;
@@ -141,7 +151,6 @@ void UserInput(struct fileTransfer *info)
 	//moves the cursor to the first location
 	ConsMoveCursor(curLocationY, STARTLOC);
 
-
 	while (1)
 	{
 		//while the keyboard hasn't been pressed do nothing
@@ -178,7 +187,7 @@ void UserInput(struct fileTransfer *info)
 			{
 				curLocationY = 2;
 			}
-			
+
 		case 2:
 			//the ip line
 			ipFlag = DisplayIP(curLocationY, key, info, doneFlag);
@@ -186,16 +195,16 @@ void UserInput(struct fileTransfer *info)
 		case 3:
 			//the subnet line
 			subFlag = DisplaySub(curLocationY, key, info, doneFlag);
-			break;			
+			break;
 		case 4:
 			//the filename line
 			fileFlag = DisplayFile(curLocationY, key, info, doneFlag);
-			break;			
+			break;
 		case 5:
 			//the file path line
 			localFlag = DisplayLocal(curLocationY, key, info, doneFlag);
 			break;
-			
+
 		case 6:
 			//the file destination line
 			destFlag = DisplayDest(curLocationY, key, info, doneFlag);
@@ -232,9 +241,18 @@ void UserInput(struct fileTransfer *info)
 */
 void StatusWindow(struct fileTransfer *info)
 {
-	enum ErrorCode displayError;
-	
-	displayError = Control(info);
+	int index;
+	enum Errorcode ERR = Receive_CloseFail;
+	ERR = Control(info);
+
+	for ( index = 0; displayError[index].ERR >= 0; index++)
+	{
+		if (displayError[index].ERR == ERR)
+		{
+			ConsMoveCursor(4, 2);
+			printf("ERROR %d: %s", displayError[index].ERR, displayError[index].display);
+		}
+	}
 }
 
 /* DisplayIP(int curLocationY, int key)
