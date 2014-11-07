@@ -4,13 +4,16 @@
 
 enum Control(struct fileTransfer *FT)
 {
-    // Variable Declarations
+	// Variable Declarations
     FILE *file_handle;
     enum ErrorCodes ntwk;
+    char fileLocation[MAXFILESIZE + 1 + MAXFILELENGTH];
 
+	// Create full file path.
+	sprintf(fileLocation, "%s%s%s", FT->ui.filePath, "\", FT->ui.fileName);
+	
     // Attempt to Open File
-	file_handle = fopen(FT->ui.filePath, "r");
-					// Must concat path & name
+	file_handle = fopen(fileLocation, "r");
 
     // Check for File Handle
     if (file_handle == NULL)
@@ -18,19 +21,18 @@ enum Control(struct fileTransfer *FT)
         // Could not open file, return error.
 		ntwk = Control_OpenFail;
     }
-	else
+	else // File has been opened, proceed.
 	{
-
 		// Store File Handle
 		FT->net.ourFile = file_handle;
 
-		// Call Network
+		// Call Network Function
 		ntwk = NTWK_transmit(FT);
 	}
 
-    // Closefile
+    // Close File
     fclose(fhandle);
     
-    // return
+    // Return
     return(ntwk);
     
