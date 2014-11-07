@@ -1,7 +1,7 @@
 #include "Control.h"
 #include "Error.h"
 
-enum Control(struct fileTransfer *FT)
+enum Errorcodes Control(struct fileTransfer *FT)
 {
 	// Variable Declarations
     FILE *file_handle;
