@@ -8,21 +8,16 @@ FILE * rfile;
 
 enum ErrorCodes Receive_Open(struct fileTransfer *RC)
 {
-
 	enum ErrorCodes rcv = OK;
 
-	strcat(RC->ui.destination, TEMP_FILE);
+	char filelocation[MAXFILESIZE + 1 + MAXFILELENGTH];
+	strcpy(filelocation, RC->ui.destination);
+	strcat(filelocation, TEMP_FILE);
 
-	//if (Receive_fileExists(RC) == 1 && RC->Overwrite != 1) {
-		// file already exists
-	//	rcv = Receive_FileAlreadyExists;
-	//}
-	//else 
-	//{
-		// file doesn't exist or overwrite flag is high
-		rfile = fopen(RC->ui.destination, "w+");	/* Open a temporary file with Read/Write plus overwrite */
-	//}
+	remove(filelocation);	/* Ensure that no lingering temp file exists. */ // http://www.programmingsimplified.com/c-program-delete-file
 
+	rfile = fopen(filelocation, "w");	/* Open a temporary file with Read/Write plus overwrite */
+	
 	if (rfile == NULL)
 		rcv = Receive_OpenFail;
 
@@ -62,7 +57,10 @@ enum ErrorCodes Receive_Write(struct fileTransfer *RC)
 enum ErrorCodes Receive_CompleteTransfer(struct fileTransfer *RC)
 {
 	int err;
+	char filelocation[MAXFILESIZE + 1 + MAXFILELENGTH];
 	enum ErrorCodes rcv = OK;
+
+	strcpy(filelocation, RC->ui.destination);
 
 	err = fclose(rfile);	/* Close the file */
 
@@ -70,10 +68,16 @@ enum ErrorCodes Receive_CompleteTransfer(struct fileTransfer *RC)
 		rcv = Receive_CloseFail;
 	else
 	{
-		err = rename(TEMP_FILE, RC->ui.fileName);	/* Rename the file */
+		strcat(filelocation, TEMP_FILE);
+		
+		sprintf(RC->ui.destination, "%s%s%s", RC->ui.destination, "\\", RC->ui.fileName);
+		remove(RC->ui.destination); /* Ensure that new file of the same name does not already exist. */
+		err = rename(filelocation, RC->ui.destination);	/* Rename the file */
 
 		if (err != 0)
 			rcv = Receive_RenameFail;
+		else
+			rcv = Receive_Done;
 	}
 
 	return rcv;	
