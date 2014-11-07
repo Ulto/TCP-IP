@@ -118,10 +118,10 @@ int NTWK_Transmit(struct fileTransfer *sptr)
                 break;
 
             /*Call to wait for a response*/
-            errorNTWK = NtwkRecv(sizeof(sptr->ERR), &sptr->ERR);
+            sptr->net.Bytes = NtwkRecv(sizeof(sptr->ERR), &sptr->ERR);
 
             /*Error*/ 
-            if (errorNTWK < 0  || sptr->ERR != OK)
+            if (sptr->net.Bytes < 0  || sptr->ERR != OK)
                 break;
         }
         fclose(sptr->net.ourFile);
@@ -137,8 +137,8 @@ int NTWK_Transmit(struct fileTransfer *sptr)
     if (errorNTWK < 0)
     {
         /*Create error code*/
-        errorNTWK = 200 - errorNTWK;
+        sptr->ERR = 200 - errorNTWK;
     }
-    return(errorNTWK);
+    return(sptr->ERR);
 }
 
