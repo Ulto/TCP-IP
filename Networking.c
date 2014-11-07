@@ -81,13 +81,18 @@ int NTWK_Transmit(struct fileTransfer *sptr)
         /*open file(send filename to dest)*/
         while (1)
         {
-            /*Read the file and store size "length" into "buffer"*/  //fix ///////////////////////////three different cases
-            int datainbuff = fread(sptr->net.buffer, sizeof(char), sizeof(sptr->net.buffer), sptr->net.ourFile);
+            /*Reads an array of count elements from measuring buffer, each one being the size of a character,
+            from the file stream and stores them in the block of memory specified by buffer.*/
+            (sptr->net.Bytes) = fread(sptr->net.buffer, sizeof(char), sizeof(sptr->net.buffer), sptr->net.ourFile);
 
-            /*Send 1500 bytes to reciever*/  //Update data structure 
+            /*If there is no amount of data to be transmitted*/
+            if (sptr->net.Bytes == 0)
+                break;
+
+            /*Send data structure to recieving computer and return errors*/
             errorNTWK = NtwkSend(sizeof(*sptr), sptr);
 
-            /*If Error*/
+            /*If Error code is present*/
             if (errorNTWK < 0)
                 break;
 
