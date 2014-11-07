@@ -4,14 +4,16 @@
 #ifndef DATASTRUCT_H
 #define DATASTRUCT_H
 
-#define BUFFSIZE 4096
+#define BUFFSIZE 	4096
+#define MAXFILESIZE 	100
+#define MAXFILELENGTH	25
 
 struct userInt
 {
 	char subnet[16];
 	char ipAddress[16];
-	char filePath[100];
-	char fileName[25];
+	char filePath[MAXFILESIZE];
+	char fileName[MAXFILELENGTH];
 	char destination[100];
 	int port;
 };
