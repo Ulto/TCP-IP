@@ -23,16 +23,19 @@ void UserInt(struct fileTransfer *info)
 	int choice = 1;
 	//initializes  console controls
 	ConsInit();
-	//clears the screen
-	ConsClear();
-	//calls the function to create the menu
-	CreateUIMenu(0);
+	
+
+	
 
 	info->ui.port = 1500;
 
 
 	while (choice != 0)
 	{
+		//clears the screen
+		ConsClear();
+		//calls the function to create the menu
+		CreateUIMenu(0);
 		do
 		{
 			while (!KEYCHECK);
@@ -51,6 +54,7 @@ void UserInt(struct fileTransfer *info)
 
 				CreateUIMenu(2);
 				NTWK_Receive(info);
+				choice = 4;
 				break;
 			case 2:
 #if 0
