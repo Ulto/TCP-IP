@@ -27,7 +27,7 @@ int NTWK_Receive(struct fileTransfer *sptr)
             incomingLength = NtwkRecv(sizeof(*sptr), sptr);
 
             /*If incoming length is less then zero, then it's an error code.*/
-            if (incomingLength < 0)
+            if (incomingLength <= 0)
             {
                 /*Set error code from length error*/
                 errorNTWK = incomingLength;
