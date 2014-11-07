@@ -5,6 +5,7 @@ int NTWK_Receive(struct fileTransfer *sptr)
 {
     int errorNTWK = 0;
     int incomingLength = 0;
+    int firstRX = 1;
 
     /*Initialize the slave to receive*/
     errorNTWK = RecvInit(sptr->ui.port);
@@ -36,12 +37,32 @@ int NTWK_Receive(struct fileTransfer *sptr)
                 break;
             }
 
-			errorNTWK = //CALLL GREG !!
+	if (sptr->net.Bytes == 0)
+	{
+		/* Transfer complete, close file */
+		errorNTWK = Receive_CompleteTransfer(sptr);
+	}
+	else
+	{
 
-            /*Send packet to send program*/
-            errorNTWK = NtwkSend(sizeof(errorNTWK), &errorNTWK);
+		/* If this is the first RX receive or Overwrite is true, Open the file */
+		if (firstRX == 1 || sptr->Overwrite)
+		{
+			firstRX = 0;
+			errorNTWK = Receive_Open(sptr);
+			errorNTWK = Receive_Write(sptr);
+		}
+		else
+		{
+			errorNTWK = Receive_Write(sptr);
+		}
 
-            /*If error, then break out of loop*/
+	}	
+
+        	/*Send packet to send program*/
+        	errorNTWK = NtwkSend(sizeof(errorNTWK), &errorNTWK);
+
+         /*If error, then break out of loop*/
             if (errorNTWK < 0)
                 break;
         }
