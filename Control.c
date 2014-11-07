@@ -35,3 +35,5 @@ enum Control(struct fileTransfer *FT)
     // Return
     return(ntwk);
     
+}
+    
