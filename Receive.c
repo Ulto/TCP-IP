@@ -94,7 +94,7 @@ enum ErrorCodes Receive_UpdateTime(struct fileTransfer *RC)
 	if (rfile > 0)
 	{
 		SetFileTime(rfile, &RC->net.creationDate, &RC->net.accessDate, &RC->net.modifyDate);
-		Closefh(rfile);
+		fclose(rfile);
 		rcv = Receive_Done;
 	}
 
