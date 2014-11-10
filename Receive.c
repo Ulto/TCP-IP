@@ -77,10 +77,28 @@ enum ErrorCodes Receive_CompleteTransfer(struct fileTransfer *RC)
 		if (err != 0)
 			rcv = Receive_RenameFail;
 		else
-			rcv = Receive_Done;
+			rcv = Receive_UpdateTime(RC);
+			 
 	}
 
 	return rcv;	
+}
+
+/************************************************************************************/
+enum ErrorCodes Receive_UpdateTime(struct fileTransfer *RC)
+{
+	enum ErrorCodes rcv = Receive_UpdateTimeFail;
+
+	// set a file's date/time info
+	rfile = CreateFile(RC->ui.destination, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	if (rfile > 0)
+	{
+		SetFileTime(rfile, &RC->net.creationDate, &RC->net.accessDate, &RC->net.modifyDate);
+		Closefh(rfile);
+		rcv = Receive_Done;
+	}
+
+	return rcv;
 }
 
 
