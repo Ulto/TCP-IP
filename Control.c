@@ -19,6 +19,7 @@ enum Errorcodes Control(struct fileTransfer *FT)
     {
         // Could not open file, return error.
 		ntwk = Control_OpenFail;
+		
     }
 	else // File has been opened, proceed.
 	{
@@ -27,10 +28,11 @@ enum Errorcodes Control(struct fileTransfer *FT)
 
 		// Call Network Function
 		ntwk = NTWK_Transmit(FT);
+		
+		// Close File
+    	fclose(file_handle);
+    	
 	}
-
-    // Close File
-    fclose(file_handle);
     
     // Return
     return(ntwk);
