@@ -80,6 +80,7 @@ int NTWK_Receive(struct fileTransfer *sptr)
         /*Create error code*/
         sptr->ERR = 200 - errorNTWK;
     }
+    NtwkExit();
     return(sptr->ERR);
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
