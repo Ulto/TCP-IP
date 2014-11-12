@@ -92,24 +92,29 @@ int NTWK_Receive(struct fileTransfer *sptr)
     /*Retunr the error*/
     return(sptr->ERR);
 }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 int NTWK_Transmit(struct fileTransfer *sptr)
 {
+    /*Initialize local error variable*/
     int errorNTWK = 0;
+    
     /*Initialize host to transmit*/
-    /*Passing in ip address and port number*/
     errorNTWK = SendInit(sptr->ui.ipAddress, sptr->ui.port);
 
     /*If there is no error, enter recieve protocol*/
-	if (errorNTWK == ERR_NONE)
+    if (errorNTWK == ERR_NONE)
     {
-        // obtain file size:
+        /*Go to the end of the file*/
         fseek(sptr->net.ourFile, 0, SEEK_END);
+        
+        /*Set the length to the current position value*/
         sptr->net.length = ftell(sptr->net.ourFile);
+        
+        /*Return back to the first value of the file*/
         rewind(sptr->net.ourFile);
 
-        /*open file(send filename to dest)*/
+        /*Open file(send filename to dest)*/
         while (1)
         {
             /*Reads an array of count elements from measuring buffer, each one being the size of a character,
@@ -126,13 +131,14 @@ int NTWK_Transmit(struct fileTransfer *sptr)
             /*Call to wait for a response*/
             sptr->net.Bytes = NtwkRecv(sizeof(sptr->ERR), &sptr->ERR);
 
-            /*Error*/ 
+            /*If an error is present, or bytes is less or equal to zero*/ 
             if (sptr->net.Bytes <= 0  || sptr->ERR != OK)
                 break;
         }
+        /*Close the file*/
         fclose(sptr->net.ourFile);
     }
-
+    /*If no error has occured*/
     if (errorNTWK == 0)
     {
         /*Exit Network*/
@@ -145,6 +151,11 @@ int NTWK_Transmit(struct fileTransfer *sptr)
         /*Create error code*/
         sptr->ERR = 200 - errorNTWK;
     }
+   
+    /*Exit the network connection*/
+    NtwkExit();
+    
+    /*Return error*/
     return(sptr->ERR);
 }
 
