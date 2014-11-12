@@ -1,8 +1,9 @@
 #include"NTWK_header.h"
-////////////////////////////////////////////////////////////////////////////////////////////////////
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 int NTWK_Receive(struct fileTransfer *sptr)
 {
+    /*Initialize variables*/
     int errorNTWK = 0;
     int incomingLength = 0;
     int firstRX = 1;
@@ -36,38 +37,42 @@ int NTWK_Receive(struct fileTransfer *sptr)
                 /*Break out of loop*/
                 break;
             }
+	    
+	    /*If number of bytes is zero*/	
+	    if (sptr->net.Bytes == 0)
+	    {
+		/* Transfer complete, close file */
+		errorNTWK = Receive_CompleteTransfer(sptr);
+	    }
+	    else
+	    {
+		/* If this is the first RX receive or Overwrite is true, Open the file */
+		if (firstRX == 1 || sptr->Overwrite)
+		{
+		    /*Remove first recieve flag*/
+		    firstRX = 0;
+		    
+		    /*Call recieve functions to open and write a file*/
+		    errorNTWK = Receive_Open(sptr);
+		    errorNTWK = Receive_Write(sptr);
+		}
+		else
+		{
+		    /*Write data to the already open file*/
+		    errorNTWK = Receive_Write(sptr);
+		}
+	    }	
 
-			if (sptr->net.Bytes == 0)
-			{
-				/* Transfer complete, close file */
-				errorNTWK = Receive_CompleteTransfer(sptr);
-			}
-			else
-			{
+            /*Send packet to send program*/
+            errorNTWK = NtwkSend(sizeof(errorNTWK), &errorNTWK);
 
-				/* If this is the first RX receive or Overwrite is true, Open the file */
-				if (firstRX == 1 || sptr->Overwrite)
-				{
-					firstRX = 0;
-					errorNTWK = Receive_Open(sptr);
-					errorNTWK = Receive_Write(sptr);
-				}
-				else
-				{
-					errorNTWK = Receive_Write(sptr);
-				}
-
-			}	
-
-        	/*Send packet to send program*/
-        	errorNTWK = NtwkSend(sizeof(errorNTWK), &errorNTWK);
-
-			/*If error, then break out of loop*/
+	    /*If error, then break out of loop*/
             if (errorNTWK != OK || errorNTWK == Receive_Done)
                 break;
         }
     }
-
+    
+    /*If the recieving has been completed*/
     if (errorNTWK == Receive_Done)
     {
         /*Exit Network*/
@@ -77,10 +82,14 @@ int NTWK_Receive(struct fileTransfer *sptr)
     /*If error, then break out of loop*/
     if (errorNTWK < 0)
     {
-        /*Create error code*/
+        /*Create error code from errorNTWK*/
         sptr->ERR = 200 - errorNTWK;
     }
+    
+    /*Close and exit out of network connection*/
     NtwkExit();
+    
+    /*Retunr the error*/
     return(sptr->ERR);
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
