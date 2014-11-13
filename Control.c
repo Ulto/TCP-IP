@@ -34,7 +34,7 @@ enum Errorcodes Control(struct fileTransfer *FT)
     	
 	}
     
-    // Return
+    // Return Error / Status Code
     return(ntwk);
     
 }
