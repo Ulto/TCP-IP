@@ -66,10 +66,10 @@ void UserInt(struct fileTransfer *info)
 				//
 				//printf("%s\n%s\n%s\n%s\n%s\n", info->ui.ipAddress, info->ui.subnet, info->ui.fileName, info->ui.filePath, info->ui.destination);
 #else
-				strcpy(info->ui.fileName, "test.txt");
+				strcpy(info->ui.fileName, "100mb.bin");
 				strcpy(info->ui.filePath, "C:\\Users\\ddr5040\\Downloads");
-				strcpy(info->ui.destination, "C:\\Users\\gzp5050\\Downloads");
-				strcpy(info->ui.ipAddress, "128.118.158.146");
+				strcpy(info->ui.destination, "C:\\Users\\zcc5013\\Downloads");
+				strcpy(info->ui.ipAddress, "128.118.138.124");
 				strcpy(info->ui.subnet, "255.255.255.000");
 #endif
 				choice++;
@@ -78,7 +78,8 @@ void UserInt(struct fileTransfer *info)
 				CreateUIMenu(3);
 				StatusWindow(info);
 				choice++;
-				Sleep(1000);
+				while (!KEYCHECK);
+				getch();
 				break;
 			}
 		}
@@ -276,6 +277,8 @@ void StatusWindow(struct fileTransfer *info)
 		{
 			ConsMoveCursor(4, 2);
 			printf("ERROR %d: %s", displayError[index].ERR, displayError[index].display);
+			ConsMoveCursor(6, 2);
+			printf("Press any key to continue...");
 			break;
 		}
 	}
