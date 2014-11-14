@@ -3,7 +3,6 @@
 int buttLoc = 0;
 
 struct ErrorDisplay displayError[50] = {
-	{ OK, "THE FILE HAS BEEN TRANSFERRED" },
 	{ Control_OpenFail, "OPEN Error" },
 	{ Ntwk_ERR_SEND_RECV, "Data didn't reach destination." },
 	{ Ntwk_ERR_CONN_FAIL, "Failed to make connection network." },
@@ -15,6 +14,8 @@ struct ErrorDisplay displayError[50] = {
 	{ Receive_RenameFail, "The file failed to rename on the target computer." },
 	{ Receive_FileAlreadyExists, "The file already exists on the target computer. Overwrite?" },
 	{ Receive_FileWriteFail, "During a File write, the system failed to write all data." },
+	{ Receive_Done, "The file was succesfully closed and renamed." },
+	{ Receive_UpdateTimeFail, "Failed to update file times." },
 	{ -1, "" }
 };
 
@@ -44,7 +45,7 @@ void UserInt(struct fileTransfer *info)
 
 		} while (choice != 0 && choice != 1 && choice != 2);
 
-		while (choice != 4)
+		while (choice != 4 && choice != 0)
 		{
 			switch (choice)
 			{
@@ -68,7 +69,7 @@ void UserInt(struct fileTransfer *info)
 				strcpy(info->ui.fileName, "test.txt");
 				strcpy(info->ui.filePath, "C:\\Users\\ddr5040\\Downloads");
 				strcpy(info->ui.destination, "C:\\Users\\gzp5050\\Downloads");
-				strcpy(info->ui.ipAddress, "128.118.255.194");
+				strcpy(info->ui.ipAddress, "128.118.158.146");
 				strcpy(info->ui.subnet, "255.255.255.000");
 #endif
 				choice++;
@@ -77,7 +78,7 @@ void UserInt(struct fileTransfer *info)
 				CreateUIMenu(3);
 				StatusWindow(info);
 				choice++;
-				Sleep(5000);
+				Sleep(1000);
 				break;
 			}
 		}
@@ -275,6 +276,7 @@ void StatusWindow(struct fileTransfer *info)
 		{
 			ConsMoveCursor(4, 2);
 			printf("ERROR %d: %s", displayError[index].ERR, displayError[index].display);
+			break;
 		}
 	}
 
