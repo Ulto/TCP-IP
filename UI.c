@@ -1,6 +1,7 @@
 #include "UI.h"
 
 int buttLoc = 0;
+int resetFlag[5] = { 0 };
 
 struct ErrorDisplay displayError[50] = {
 	{ Control_OpenFail, "OPEN Error" },
@@ -58,7 +59,7 @@ void UserInt(struct fileTransfer *info)
 				choice = 4;
 				break;
 			case 2:
-#if 0
+#if 1
 				CreateUIMenu(1);
 				//gets the user input 
 				UserInput(info);
@@ -82,6 +83,7 @@ void UserInt(struct fileTransfer *info)
 				//allows the user to check errors
 				while (!KEYCHECK);
 				getch();
+				memset(resetFlag,-1,sizeof(resetFlag));
 				break;
 			}
 		}
@@ -327,13 +329,25 @@ int DisplayIP(int curLocationY, int key, struct fileTransfer *info, int doneFlag
 	int badFlag = 0;
 	static int count = 0;
 	static int maxcnt = 0;
-	static int actualval = 0;
-	static int maxflag = 0;
+	//static int actualval = 0;
+	//static int maxflag = 0;
 	static int goodGo[ADDRESSMAX] = { 0 };
 	int valid = 0;
 	int done = CHECK;
 	int returndat = 0;
 	int tempSize = 0;
+
+	if (resetFlag[0] == -1)
+	{
+		count = 0;
+		//actualval = 0;
+		//maxflag = 0;
+
+		ipx = STARTLOC;
+		maxcnt = 0;
+		memset(goodGo, 0, ADDRESSMAX);
+		resetFlag[0] = 0;
+	}
 
 	sprintf(output, "%c", key);
 
@@ -500,6 +514,17 @@ int DisplaySub(int curLocationY, int key, struct fileTransfer *info, int doneFla
 	int returndat = 0;
 	int tempSize = 0;
 
+	if (resetFlag[1] == -1)
+	{
+		count = 0;
+		//actualval = 0;
+		//maxflag = 0;
+
+		subx = STARTLOC;
+		maxcnt = 0;
+		memset(goodGo, 0, ADDRESSMAX);
+		resetFlag[1] = 0;
+	}
 
 	sprintf(output, "%c", key);
 
@@ -656,6 +681,13 @@ int DisplayFile(int curLocationY, int key, struct fileTransfer *info, int doneFl
 	int done = CHECK;
 	int returndat = 0;
 
+	if (resetFlag[2] == -1)
+	{
+		filex = STARTLOC;
+		maxcnt = 0;
+		memset(goodGo, '\0', MAXFILELENGTH);
+		resetFlag[2] = 0;
+	}
 	sprintf(output, "%c", key);
 	//if delete key is pressed
 	if (key == DELETEKEY)
@@ -757,6 +789,14 @@ int DisplayLocal(int curLocationY, int key, struct fileTransfer *info, int doneF
 	int done = CHECK;
 	int returndat = 0;
 
+	if (resetFlag[3] == -1)
+	{
+		localx = STARTLOC;
+		maxcnt = 0;
+		memset(goodGo, '\0', MAXFILESIZE);
+		resetFlag[3] = 0;
+	}
+
 	sprintf(output, "%c", key);
 	//if delete key is pressed
 	if (key == DELETEKEY)
@@ -857,6 +897,14 @@ int DisplayDest(int curLocationY, int key, struct fileTransfer *info, int doneFl
 	int valid = 0;
 	int done = CHECK;
 	int returndat = 0;
+
+	if (resetFlag[4] == -1)
+	{
+		destx = STARTLOC;
+		maxcnt = 0;
+		memset(goodGo, '\0', MAXFILESIZE);
+		resetFlag[4] = 0;
+	}
 
 	sprintf(output, "%c", key);
 	//if delete key is pressed
