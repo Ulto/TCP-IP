@@ -279,12 +279,26 @@ void StatusWindow(struct fileTransfer *info)
 		//if it finds a matching error
 		if (displayError[index].ERR == ERR)
 		{
-			//print it out and break
-			ConsMoveCursor(4, 2);
-			printf("ERROR %d: %s", displayError[index].ERR, displayError[index].display);
-			ConsMoveCursor(6, 2);
-			printf("Press any key to continue...");
-			break;
+			if (ERR == Receive_Done)
+			{
+				//print it out and break
+				ConsMoveCursor(4, 2);
+				printf("%s", displayError[index].display);
+				ConsMoveCursor(6, 2);
+				printf("Press any key to continue...");
+				break;
+			}
+			else
+			{	
+				//print it out and break
+				ConsMoveCursor(4, 2);
+				printf("ERROR %d: %s", displayError[index].ERR, displayError[index].display);
+				ConsMoveCursor(6, 2);
+				printf("Press any key to continue...");
+				break;
+
+			}
+
 		}
 		//if the error is not in the list
 		if (displayError[index].ERR == -1)
