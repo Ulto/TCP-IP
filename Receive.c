@@ -16,7 +16,7 @@ enum ErrorCodes Receive_Open(struct fileTransfer *RC)
 
 	remove(filelocation);	/* Ensure that no lingering temp file exists. */ // http://www.programmingsimplified.com/c-program-delete-file
 
-	rfile = fopen(filelocation, "w");	/* Open a temporary file with Read/Write plus overwrite */
+	rfile = fopen(filelocation, "wb");	/* Open a temporary file with Read/Write plus overwrite */
 	
 	if (rfile == NULL)
 		rcv = Receive_OpenFail;
@@ -90,7 +90,7 @@ enum ErrorCodes Receive_UpdateTime(struct fileTransfer *RC)
 	enum ErrorCodes rcv = Receive_UpdateTimeFail;
 
 	// set a file's date/time info
-	rfile = fopen(RC->ui.destination, "a");
+	rfile = fopen(RC->ui.destination, "ab");
 	if (rfile > 0)
 	{
 		SetFileTime(rfile, &RC->net.creationDate, &RC->net.accessDate, &RC->net.modifyDate);
