@@ -33,7 +33,6 @@ struct fileTransfer
 {
 	enum ErrorCode ERR;
 	int command;
-	int Overwrite;
 
 	struct userInt ui;
 	struct network net;
