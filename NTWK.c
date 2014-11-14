@@ -291,15 +291,23 @@ int NtwkSend(int length, unsigned char *datap)
 /* then, it is possible that there is more data to receive */
 int NtwkRecv(int length, unsigned char *datap)
 {
+	int total = 0;
+	int rcvlen;
+
    /* make sure that we have a valid socket handle */
    if (sock_fh <= 0)
        return(ERR_BAD_SEQ);
 
-   /* get an incoming data block up to size "length" */
-   length = recv(sock_fh, (char *)datap, length, 0);
+   while (total < length)
+   {
+	   /* get an incoming data block up to size "length" */
+	   rcvlen = recv(sock_fh, (char *)&datap[total], length-total, 0);
 
-   if (length < 0)
-       return(ERR_SEND_RECV);
+	   if (rcvlen < 0)
+		   return(ERR_SEND_RECV);
 
-   return(length);
+	   total += rcvlen;
+   }
+
+   return(total);
 }
