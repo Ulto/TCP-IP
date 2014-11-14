@@ -12,7 +12,7 @@ enum Errorcodes Control(struct fileTransfer *FT)
 	sprintf(fileLocation, "%s%s%s", FT->ui.filePath, "\\", FT->ui.fileName);
 	
     	// Attempt to Open File
-	file_handle = fopen(fileLocation, "r");
+	file_handle = fopen(fileLocation, "rb");
 
     	// Check for File Handle
     	if (file_handle == NULL)
