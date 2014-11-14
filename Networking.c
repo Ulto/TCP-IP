@@ -130,12 +130,7 @@ int NTWK_Transmit(struct fileTransfer *sptr)
         /*Close the file*/
         fclose(sptr->net.ourFile);
     }
-    /*If no error has occured*/
-    if (errorNTWK == 0)
-    {
-        /*Exit Network*/
-        errorNTWK = NtwkExit();
-    }
+
 
     /*If error, then break out of loop*/
     if (errorNTWK < 0)
