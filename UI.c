@@ -62,10 +62,9 @@ void UserInt(struct fileTransfer *info)
 				CreateUIMenu(1);
 				//gets the user input 
 				UserInput(info);
-				
-				//
-				//printf("%s\n%s\n%s\n%s\n%s\n", info->ui.ipAddress, info->ui.subnet, info->ui.fileName, info->ui.filePath, info->ui.destination);
+
 #else
+				//debug data, allows for quick running
 				strcpy(info->ui.fileName, "100mb.bin");
 				strcpy(info->ui.filePath, "C:\\Users\\ddr5040\\Downloads");
 				strcpy(info->ui.destination, "C:\\Users\\zcc5013\\Downloads");
@@ -75,9 +74,12 @@ void UserInt(struct fileTransfer *info)
 				choice++;
 				break;
 			case 3:
+				//creates the status window
 				CreateUIMenu(3);
+				//moves on to the next part of the program
 				StatusWindow(info);
 				choice++;
+				//allows the user to check errors
 				while (!KEYCHECK);
 				getch();
 				break;
@@ -267,25 +269,28 @@ void UserInput(struct fileTransfer *info)
 void StatusWindow(struct fileTransfer *info)
 {
 	int index;
-	enum Errorcode ERR = Receive_CloseFail;
+	enum Errorcode ERR;
+	
+	//moving on to the control stage
 	ERR = Control(info);
-	ConsMoveCursor(4, 2);
-	printf("%d", ERR);
-	for ( index = 0; displayError[index].ERR >= 0; index++)
+	//checks the error code against the array of errors
+	for (index = 0; displayError[index].ERR >= 0; index++)
 	{
+		//if it finds a matching error
 		if (displayError[index].ERR == ERR)
 		{
+			//print it out and break
 			ConsMoveCursor(4, 2);
 			printf("ERROR %d: %s", displayError[index].ERR, displayError[index].display);
 			ConsMoveCursor(6, 2);
 			printf("Press any key to continue...");
 			break;
 		}
-	}
-
-	if (ERR == Receive_FileAlreadyExists)
-	{
-
+		//if the error is not in the list
+		if (displayError[index].ERR == -1)
+		{
+			printf("ERROR %d: Unknown Error, please contact network admin", displayError[index].ERR);
+		}
 	}
 }
 
