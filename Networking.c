@@ -38,46 +38,38 @@ int NTWK_Receive(struct fileTransfer *sptr)
                 break;
             }
 	    
-	    /*If number of bytes is zero*/	
-	    if (sptr->net.Bytes == 0)
-	    {
-		/* Transfer complete, close file */
-		errorNTWK = Receive_CompleteTransfer(sptr);
-	    }
-	    else
-	    {
-		/* If this is the first RX receive or Overwrite is true, Open the file */
-		if (firstRX == 1 || sptr->Overwrite)
-		{
-		    /*Remove first recieve flag*/
-		    firstRX = 0;
-		    
-		    /*Call recieve functions to open and write a file*/
-		    errorNTWK = Receive_Open(sptr);
-		    errorNTWK = Receive_Write(sptr);
-		}
-		else
-		{
-		    /*Write data to the already open file*/
-		    errorNTWK = Receive_Write(sptr);
-		}
-	    }	
+			/*If number of bytes is zero*/	
+			if (sptr->net.Bytes == 0)
+			{
+				/* Transfer complete, close file */
+				errorNTWK = Receive_CompleteTransfer(sptr);
+			}
+			else
+			{
+				
+				/* If this is the first RX receive or Overwrite is true, Open the file */
+				if (firstRX == 1)
+				{
+					/*Remove first receive flag*/
+					firstRX = 0;
+
+					/*Call recieve functions to open and write a file*/
+					errorNTWK = Receive_Open(sptr);
+				}
+
+				/*Write data to the already open file*/
+				errorNTWK = Receive_Write(sptr);
+			}	
 
             /*Send packet to send program*/
             errorNTWK = NtwkSend(sizeof(errorNTWK), &errorNTWK);
 
-	    /*If error, then break out of loop*/
-            if (errorNTWK != OK || errorNTWK == Receive_Done)
-                break;
-        }
+			/*If error, then break out of loop*/
+			if (errorNTWK != OK)
+				break;
+		}
     }
     
-    /*If the recieving has been completed*/
-    if (errorNTWK == Receive_Done)
-    {
-        /*Exit Network*/
-        errorNTWK = NtwkExit();
-    }
 
     /*If error, then break out of loop*/
     if (errorNTWK < 0)
