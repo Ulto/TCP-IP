@@ -66,7 +66,7 @@ void UserInt(struct fileTransfer *info)
 
 #else
 				//debug data, allows for quick running
-				strcpy(info->ui.fileName, "100mb.bin");
+				strcpy(info->ui.fileName, "hpp.gif");
 				strcpy(info->ui.filePath, "C:\\Users\\ddr5040\\Downloads");
 				strcpy(info->ui.destination, "C:\\Users\\zcc5013\\Downloads");
 				strcpy(info->ui.ipAddress, "128.118.138.124");
