@@ -1,8 +1,11 @@
 /*
-CMPET 457
-Lab 4
-Fall 2014
-*/
+ * CMPET 457
+ * Lab 4
+ * Fall 2014
+ *
+ * See README.md for more information.
+ *
+ */
 
 
 // INCLUDES
@@ -14,13 +17,14 @@ Fall 2014
 #include "dataStruct.h"
 #include "UI.h"
 
+
 int main()
 {
 	// Declare & Initialize Data Structure(s)
 	struct fileTransfer FT;
 	memset(&FT, '\0', sizeof(FT));
 
-	// Invoke User Interface
+	// User Interface
 	UserInt(&FT);
 
 	return 0;
