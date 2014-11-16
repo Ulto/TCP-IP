@@ -1,5 +1,14 @@
 TCP-IP
 ======
+CMPET 456
+
+Lab 4
+
+Fall 2014
+
+
+File transfer program written as a collaborative effort.
+
 
 ### Primary Responsibilities
 Section        | Primary Contributor
@@ -8,6 +17,7 @@ User Interface | Dom
 Control		   | Zach
 Network		   | Chris
 Recieve		   | Greg
+
 
 ### Primary Responsibilities (By File)
 File Name     | Primary Contributor
