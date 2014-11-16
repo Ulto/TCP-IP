@@ -2,10 +2,11 @@ TCP-IP
 ======
 
 ### Primary Responsibilities
+---------------|-------
 User Interface | Dom
-Control		 | Zach
-Network		 | Chris
-Recieve		 | Greg
+Control		   | Zach
+Network		   | Chris
+Recieve		   | Greg
 
 ### Primary Responsibilities (By File)
 File Name     | Primary Contributor
