@@ -2,7 +2,7 @@ TCP-IP
 ======
 
 ### Primary Responsibilities
-Section        | 
+Section        | -
 ---------------|-------
 User Interface | Dom
 Control		   | Zach
