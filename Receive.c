@@ -100,5 +100,3 @@ enum ErrorCodes Receive_UpdateTime(struct fileTransfer *RC)
 
 	return rcv;
 }
-
-
