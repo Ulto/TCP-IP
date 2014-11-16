@@ -1,9 +1,8 @@
 TCP-IP
 ======
-CMPET 456
-Lab 4
-Fall 2014
-
+- CMPET 456
+- Lab 4
+- Fall 2014
 
 File transfer program written as a collaborative effort.
 
