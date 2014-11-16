@@ -2,6 +2,7 @@
 #include "dataStruct.h"
 #include "Error.h"
 
+
 #ifndef UI_H
 #define UI_H
 
@@ -31,9 +32,11 @@
 #define CHECKMARK(id)	ConsDisplayAttr(9+id, 23, &done, GREEN)		//macro to display the checkmark
 #define RED_X(id)		ConsDisplayAttr(9+id, 23, WRONG, RED)		//macro to display the X
 
+
 struct ErrorDisplay {
 	enum ErrorCode ERR;
 	char display[100];
+
 };
 
 
