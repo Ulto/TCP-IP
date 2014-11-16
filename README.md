@@ -2,6 +2,7 @@ TCP-IP
 ======
 
 ### Primary Responsibilities
+Section        | 
 ---------------|-------
 User Interface | Dom
 Control		   | Zach
@@ -10,7 +11,7 @@ Recieve		   | Greg
 
 ### Primary Responsibilities (By File)
 File Name     | Primary Contributor
-------------- | --------------------
+------------- | ----------------------------------------------------------
 Control.c     | Zach
 Control.h     | Zach
 Error.h       | Shared (Each contributor responsible for own error info.)
