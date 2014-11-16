@@ -16,6 +16,7 @@ struct userInt
 	char fileName[MAXFILELENGTH];
 	char destination[100];
 	int port;
+
 };
 
 struct network
@@ -27,6 +28,7 @@ struct network
 	char buffer[BUFFSIZE];
 	int Bytes;
 	int length;
+	
 };
 
 struct fileTransfer
@@ -36,7 +38,7 @@ struct fileTransfer
 
 	struct userInt ui;
 	struct network net;
-
+	
 };
 
 #endif /* DATASTRUCT_H */
