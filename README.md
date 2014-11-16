@@ -1,9 +1,7 @@
 TCP-IP
 ======
 CMPET 456
-
 Lab 4
-
 Fall 2014
 
 
