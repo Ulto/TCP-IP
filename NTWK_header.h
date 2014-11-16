@@ -19,5 +19,3 @@ extern int NtwkExit(void);
 extern int NtwkSend(int length, unsigned char *datap);
 
 extern int NtwkRecv(int length, unsigned char *datap);
-
-
