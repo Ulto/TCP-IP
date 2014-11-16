@@ -8,6 +8,7 @@
 #define MAXFILESIZE 	100
 #define MAXFILELENGTH	25
 
+
 struct userInt
 {
 	char subnet[16];
@@ -28,7 +29,7 @@ struct network
 	char buffer[BUFFSIZE];
 	int Bytes;
 	int length;
-	
+
 };
 
 struct fileTransfer
@@ -38,7 +39,7 @@ struct fileTransfer
 
 	struct userInt ui;
 	struct network net;
-	
+
 };
 
 #endif /* DATASTRUCT_H */
