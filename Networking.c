@@ -145,4 +145,3 @@ int NTWK_Transmit(struct fileTransfer *sptr)
     /*Return error*/
     return(sptr->ERR);
 }
-
