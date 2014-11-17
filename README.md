@@ -30,8 +30,8 @@ Recieve.c     | Greg
 Recieve.h     | Greg
 UI.c          | Dom
 UI.h          | Dom
-cons.c        | Dom
-cons.h        | Dom
+cons.c        | Provided Framework (S. Strom)
+cons.h        | Provided Framework (S. Strom)
 dataStruct.h  | Shared (Data structure contents collaborative effort.)
 main.c        | Shared
 ntwk.h        | Provided Framework (S. Strom)
