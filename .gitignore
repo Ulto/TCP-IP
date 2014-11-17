@@ -18,3 +18,10 @@ Lab4.vcxproj
 *.ilk
 *.pdb
 *.tlog
+*.stackdump
+*.opensdf
+*.sdf
+*.sln
+*.suo
+*.vcxproj
+*.filters
