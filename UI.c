@@ -7,7 +7,7 @@ struct ErrorDisplay displayError[50] = {
 	{ Control_OpenFail, "OPEN Error" },
 	{ Ntwk_ERR_SEND_RECV, "Data didn't reach destination." },
 	{ Ntwk_ERR_CONN_FAIL, "Failed to make connection network." },
-	{ Ntwk_ERR_NTWK_FAIL, "Miscelaneous network failure." },
+	{ Ntwk_ERR_NTWK_FAIL, "Miscellaneous network failure." },
 	{ Ntwk_ERR_BAD_SEQ, "No socket connection" },
 	{ Ntwk_ERR_BAD_IP, "Invalid network ip address" },
 	{ Receive_OpenFail, "The file failed to open on the target computer." },
@@ -15,7 +15,7 @@ struct ErrorDisplay displayError[50] = {
 	{ Receive_RenameFail, "The file failed to rename on the target computer." },
 	{ Receive_FileAlreadyExists, "The file already exists on the target computer. Overwrite?" },
 	{ Receive_FileWriteFail, "During a File write, the system failed to write all data." },
-	{ Receive_Done, "The file was succesfully closed and renamed." },
+	{ Receive_Done, "The file was successfully closed and renamed." },
 	{ Receive_UpdateTimeFail, "Failed to update file times." },
 	{ -1, "" }
 };
